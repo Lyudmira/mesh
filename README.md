@@ -1,4 +1,16 @@
 
+
+
+---
+
+
+you will need to create a conda/minimanba environment and start from there. all dependencies shall be installed via minimanba or conda.
+
+
+---
+
+
+
 # Dual-Layer Hybrid: A Complete Pipeline Design for Robust Indoor Point Cloud Reconstruction to a Visualizable Mesh
 
 > **One-Sentence Goal:** **First, use an Unsigned Distance Field (UDF) and Graph Cut to create a robust, flat, and closed "building shell" representing only the interior space. Then, separately reconstruct the "clutter and details" within a normal-offset band outside the shell and stitch them together.**
@@ -315,51 +327,6 @@ $$
 *   **Interior-Only:** The combination of free-space seeds and a visibility penalty explicitly encodes in the energy function that the "outside is free," preventing the algorithm from hallucinating exterior walls.
 
 ---
-
-### References
-
-1.  Point Cloud Library (PCL): `pcl::MovingLeastSquares< PointInT, PointOutT >` Class Template Reference
-    <https://pointclouds.org/documentation/classpcl_1_1_moving_least__squares.html>
-2.  Point Cloud Library (PCL): `pcl::BilateralFilter< PointT >` Class Template Reference
-    <https://pointclouds.org/documentation/classpcl_1_1_bilateral__filter.html>
-3.  CGAL 6.0.1 - Point Set Processing: Algorithms
-    <https://doc.cgal.org/latest/Point_set_processing_3/group__PkgPointSetProcessing3Algorithms.html>
-4.  CGAL 6.0.1 - Point Set Processing: Algorithms
-    <https://doc.cgal.org/latest/Point_set_processing_3/group__PkgPointSetProcessing3Algorithms.html>
-5.  `open3d.geometry.sample_points_poisson_disk` — Open3D 0.7.0 documentation
-    <https://www.open3d.org/docs/0.7.0/python_api/open3d.geometry.sample_points_poisson_disk.html>
-6.  Point Cloud Library (PCL): `pcl::RegionGrowing< PointT, NormalT >` Class Template Reference
-    <https://pointclouds.org/documentation/classpcl_1_1_region__growing.html>
-7.  Computer Vision at Waterloo - Code
-    <https://vision.cs.uwaterloo.ca/code/>
-8.  Boost Graph Library: Boykov-Kolmogorov Maximum Flow
-    <https://www.boost.org/doc/libs/1_88_0/libs/graph/doc/boykov_kolmogorov_max_flow.html>
-9.  VolumeToMesh generating Quads or Triangles
-    <https://groups.google.com/g/openvdb-forum/c/uvZzhnNa4kQ>
-10. `raw.githubusercontent.com`
-    <https://raw.githubusercontent.com/emilk/Dual-Contouring/master/README.md>
-11. Occupancy-Based Dual Contouring
-    <https://occupancy-based-dual-contouring.github.io/>
-12. CGAL 6.0.1 - 3D Alpha Wrapping: User Manual
-    <https://doc.cgal.org/latest/Alpha_wrap_3/index.html>
-13. CGAL 6.0.1 - Shape Detection: User Manual
-    <https://doc.cgal.org/latest/Shape_detection/index.html>
-14. Point Cloud Library (PCL): `pcl::SACSegmentation< PointT >` Class Template Reference
-    <https://pointclouds.org/documentation/classpcl_1_1_s__a__c__segmentation.html>
-15. CGAL 4.11.3 - Polygon Mesh Processing: User Manual
-    <https://doc.cgal.org/4.11.3/Polygon_mesh_processing/index.html>
-16. Point Cloud Library (PCL): `pcl::GreedyProjectionTriangulation< PointInT >` Class Template Reference
-    <https://pointclouds.org/documentation/classpcl_1_1_greedy__projection__triangulation.html>
-17. List of Filters — PyMeshLab documentation
-    <https://pymeshlab.readthedocs.io/en/latest/filter_list.html>
-18. List of Filters — PyMeshLab documentation
-    <https://pymeshlab.readthedocs.io/en/latest/filter_list.html>
-19. CGAL 6.0.1 - Triangulated Surface Mesh Simplification: User Manual
-    <https://doc.cgal.org/latest/Surface_mesh_simplification/index.html>
-20. FAQ - libigl
-    <https://libigl.github.io/faq/>
-21. CGAL 6.0.1 - Triangulated Surface Mesh Simplification: User Manual
-    <https://doc.cgal.org/latest/Surface_mesh_simplification/index.html> 
 
 
 ---
