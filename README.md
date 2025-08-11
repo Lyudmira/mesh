@@ -6,6 +6,39 @@
 
 you will need to create a conda/minimanba environment and start from there. all dependencies shall be installed via minimanba or conda.
 
+### Quick Start
+
+Install [micromamba](https://mamba.readthedocs.io/en/latest/user_guide/micromamba.html) and create the environment:
+
+```
+micromamba env create -f environment.yml
+micromamba activate mesh-env
+```
+
+The `environment.yml` specifies the core dependencies used by this project:
+
+- `openvdb` – sparse voxel and distance field processing
+- `pcl` – point cloud utilities
+- `cgal-cpp` – computational geometry algorithms
+- `igl` – libigl geometry processing bindings
+- `open3d` – visualization and Python helpers
+- `pymeshlab` – additional mesh filters
+- `pytest` – test runner
+
+All packages are sourced from the `conda-forge` channel and installed without superuser privileges.
+
+### Pipeline Demo
+
+A minimal end-to-end pipeline is provided in `recon/src/pipeline.cpp`. It leverages PCL for point cloud preprocessing, OpenVDB for level-set construction and dual contouring, CGAL for surface metrics, and libigl for mesh export. Compile and run:
+
+```
+g++ recon/src/pipeline.cpp -std=c++17 $(pkg-config --cflags --libs openvdb) $(pcl_config --cflags) $(pcl_config --libs) $(pkg-config --cflags --libs cgal) -o pipeline
+./pipeline input.ply output.obj
+```
+
+The Python wrapper `recon/scripts/pipeline.py` invokes the binary and loads the resulting mesh using Open3D and PyMeshLab for verification.
+
+
 
 ---
 
