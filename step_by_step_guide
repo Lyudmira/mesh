@@ -1,0 +1,377 @@
+# Project Current Status & Goals
+
+This repository provides an overall design for a system that reconstructs indoor point clouds into visualizable meshes. The README clearly states the project's goal: to generate a flat, closed, 2-manifold mesh through a **dual-layer hybrid pipeline**. This process first constructs a solid "building shell" for the main architectural parts, and then reconstructs and fuses all details within a thin layer outward from the shell's normal direction. The README also describes all the required features, theoretical formulas, and the parameters and algorithms needed for each stage. It further provides instructions on how to prepare dependencies in a `conda/mamba` environment, a recommended directory structure, and necessary quality control metrics.[^1][^2]
+
+The repository's code is currently very concise:
+
+- `environment.yml` defines the project's main dependencies, such as `openvdb`, `pcl`, `cgal-cpp`, `igl`, `open3d`, `pymeshlab`, etc.[^3]
+- `recon/src/pipeline.cpp` is a minimal demonstration program. It reads a `.ply` point cloud, performs basic statistical denoising and normal estimation, then uses OpenVDB to convert the point cloud into a density field and extracts a mesh using Dual Contouring. Finally, it writes an `.obj` file using `libigl` and calculates the mesh area in CGAL.[^4] This file proves that the dependency libraries are compilable, but it is far from the complete pipeline described in the README.
+- `recon/scripts/pipeline.py` is just a simple Python wrapper that calls the compiled C++ binary and uses Open3D and PyMeshLab to read the results.[^5]
+- `tests/test_cpp_build.py` and `tests/test_pipeline.py` respectively verify that the C++ project can compile and link against all libraries, and that it can run and generate a mesh on a small sphere point cloud.[^6][^7]
+
+From the source code and tests, it is clear that the project's implementation progress is only at the **most basic pipeline validation stage**, and most of the features described in the README have not yet been implemented. Therefore, the following section proposes a complete implementation path to transform the design in the README into a runnable system, providing key code examples and required third-party libraries.
+
+---
+
+## Development Roadmap Overview
+
+Based on the sections in the README, the pipeline can be divided into five main stages:
+
+1.  **Stage 0 - Data Auditing & Cleaning**: Unify units, crop, perform density statistics, denoise, and estimate normals for the input point cloud, and perform regional density balancing.[^8]
+2.  **Stage 1 - Building Shell Reconstruction (UDF → Graph Cut → Dual Contouring → Normal-based Surface Adjustment)**:
+    - Voxelize the sparse point cloud and construct an **Unsigned Distance Field (UDF)**.[^9]
+    - Construct a voxel graph within the point cloud's inflation band, define weights for the data and smoothness terms, and use the **Max-Flow/Min-Cut algorithm** to classify "inside/free" voxels.[^10]
+    - Use **Dual Contouring** to extract the initial shell mesh from the labeled distance field.[^11]
+    - Use methods like **Alpha Wrapping**, **plane detection and projection**, and **intersection line re-projection** to make the mesh topology valid and the wall surfaces completely flat.[^12]
+3.  **Stage 2 - Detail Layer Reconstruction**: Extract point clouds within a thin 5-10 cm band outward from the shell's normal direction. Use **GP3 or RIMLS → Dual Contouring** to reconstruct the detail mesh, and perform topology repair and moderate simplification.[^13]
+4.  **Stage 3 - Fusion & Boolean Operations**: With the shell as the primary and details as the secondary, perform a Boolean union/difference. If necessary, apply a second **Alpha Wrap** to make the merged mesh smooth and consistent.[^14]
+5.  **Stage 4 - LOD Generation & Export**: Simplify the model based on planar and detailed regions separately and export to formats like GLB/PLY/OBJ.[^15] Generate a quality control report, calculating metrics like planarity residual, orthogonality deviation, and detail recall rate.[^16]
+
+The following sections will detail the implementation strategies and key code for each stage.
+
+---
+
+## Environment Setup
+
+#### 1. Create conda/miniconda environment:
+```bash
+micromamba env create -f environment.yml
+micromamba activate mesh-env
+```
+The `environment.yml` file covers the necessary C++/Python libraries for the reconstruction pipeline.[^3]
+
+#### 2. Compile Core Libraries:
+3.  Confirm that `openvdb`, `pcl`, `cgal-cpp`, and `igl` are all callable within the conda environment.
+4.  For the C++ part, create a `CMakeLists.txt`, setting `CMAKE_PREFIX_PATH` to point to the conda environment so that headers and libraries can be found.
+5.  Based on the test examples, use commands like `pkg-config --cflags --libs openvdb` and `pcl_config --cflags` to get the compilation parameters.[^17]
+
+#### 6. Install Python Tools:
+7.  Install dependencies like `open3d`, `pymeshlab`, and `pytest` to facilitate writing Python wrapper scripts, visualization, and testing.
+8.  Install `matplotlib` and `pandas` for generating quality control reports.
+
+---
+
+## Stage 0: Data Auditing & Cleaning
+
+### Functional Goals
+
+- Unify coordinate units to meters and perform rough cropping based on known indoor boundaries.[^18]
+- Calculate k-nearest neighbor distance statistics (median, 95th percentile) for each point to serve as a baseline for subsequent adaptive radii.[^19]
+- Use Statistical Outlier Removal (SOR) and Radius Outlier Removal to remove obvious noise.[^20]
+- Perform normal estimation and global orientation consistency propagation.[^21]
+- Select appropriate filters (MLS, RIMLS, Bilateral, WLOP) for feature-preserving denoising based on curvature and color gradients.[^22]
+- Perform density balancing for planar and detail regions separately (e.g., Voxel Grid Downsampling or Poisson-disk sampling).[^23]
+
+### Technology Selection
+
+- **PCL** provides functionalities for reading/writing point clouds, k-d trees, statistical outlier removal, normal estimation, and various filters.
+- **Open3D** can be used for point cloud visualization and Poisson-disk sampling at the Python layer.
+- **CGAL's Point Set Processing** module provides advanced filtering algorithms like WLOP.
+- **NumPy/Pandas** are convenient for statistical analysis and parameter configuration.
+
+### Key Implementation Steps
+
+#### 1. Read and Unify Units:
+```cpp
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>());
+pcl::io::loadPLYFile(in_path, *cloud);
+
+// Adjust point coordinates based on user-provided unit scale (e.g., mm to meters)
+for(auto &p : cloud->points) {
+    p.x *= unit_scale;
+    p.y *= unit_scale;
+    p.z *= unit_scale;
+}
+```
+
+#### 2. Rough Cropping: Remove exterior points using an Axis-Aligned Bounding Box (AABB).
+```cpp
+pcl::CropBox<pcl::PointXYZRGB> crop;
+crop.setMin(Eigen::Vector4f(min_x, min_y, min_z, 1.0f));
+crop.setMax(Eigen::Vector4f(max_x, max_y, max_z, 1.0f));
+crop.setInputCloud(cloud);
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr cropped(new pcl::PointCloud<pcl::PointXYZRGB>());
+crop.filter(*cropped);
+cloud.swap(cropped);
+```
+
+#### 3. Density Statistics and Outlier Removal: First, build a k-d tree to compute the kNN distance distribution, then calculate the median and 95th percentile, and set parameters based on these statistics.
+```cpp
+pcl::KdTreeFLANN<pcl::PointXYZRGB> tree;
+tree.setInputCloud(cloud);
+std::vector<float> distances;
+for (size_t i = 0; i < cloud->size(); ++i) {
+    std::vector<int> idx(k);
+    std::vector<float> sqd(k);
+    tree.nearestKSearch(cloud->points[i], k, idx, sqd);
+    // kNN distance is sqrt(sqd[k-1])
+    distances.push_back(std::sqrt(sqd.back()));
+}
+
+// Calculate median and 95th percentile
+std::nth_element(distances.begin(), distances.begin() + distances.size()/2, distances.end());
+float d_median = distances[distances.size()/2];
+std::nth_element(distances.begin(), distances.begin() + static_cast<size_t>(0.95*distances.size()), distances.end());
+float d_95 = distances[static_cast<size_t>(0.95*distances.size())];
+```
+
+#### 4. Statistical Outlier Filtering: Use PCL's `StatisticalOutlierRemoval` and `RadiusOutlierRemoval` to remove outliers.[^20]
+```cpp
+pcl::StatisticalOutlierRemoval<pcl::PointXYZRGB> sor;
+sor.setInputCloud(cloud);
+sor.setMeanK(16);
+sor.setStddevMulThresh(2.0);
+sor.filter(*cloud);
+
+pcl::RadiusOutlierRemoval<pcl::PointXYZRGB> ror;
+ror.setInputCloud(cloud);
+ror.setRadiusSearch(2.0 * d_median);
+ror.setMinNeighborsInRadius(8);
+ror.filter(*cloud);
+```
+
+#### 5. Normal Estimation and Orientation Consistency: Use `NormalEstimationOMP` for normal estimation, followed by constructing a Minimum Spanning Tree (MST) or using a Delaunay graph for global orientation propagation.
+
+#### 6. Feature-Preserving Denoising:
+- **Planar Regions**: Use Moving Least Squares (MLS) for smoothing and normal re-estimation.[^24]
+- **Detail/Edge Regions**: Switch to a bilateral filter or RIMLS/WLOP algorithm based on curvature and color gradients.
+
+```cpp
+pcl::MovingLeastSquares<pcl::PointXYZRGB, pcl::PointXYZRGB> mls;
+mls.setInputCloud(cloud);
+mls.setSearchMethod(tree);
+mls.setComputeNormals(true);
+mls.setPolynomialFit(true);
+mls.setSearchRadius(3.0 * d_median);
+pcl::PointCloud<pcl::PointXYZRGB> mls_points;
+mls.process(mls_points);
+```
+Bilateral filtering and WLOP can be implemented via CGAL or PCL extension libraries.
+
+#### 7. Density Equalization: Perform voxel down-sampling on planar regions, while retaining original density or using Open3D's Poisson-disk sampling for detail regions.[^23]
+```python
+import open3d as o3d
+import numpy as np
+
+pcd = o3d.geometry.PointCloud()
+pcd.points = o3d.utility.Vector3dVector(np.asarray(points))
+
+# Example for planar regions
+balanced = pcd.voxel_down_sample(voxel_size=0.005) 
+# For detail regions, keep original or apply Poisson-disk
+detail = pcd 
+```
+
+After completing Stage 0, cleaned point clouds and normals (`data/clean.ply`, `data/normals.ply`) should be generated, along with an audit report (`reports/audit.json`) recording density statistics and filtering parameters, providing a basis for subsequent stages.
+
+---
+
+## Stage 1: Building Shell Reconstruction
+
+### 1. Sparse Voxelization and UDF Construction
+- Use OpenVDB to convert the point cloud into a voxel grid and compute the Unsigned Distance Field.[^9]
+- Employ adaptive voxel refinement: start with a voxel size of 30-50 mm, and refine to 10-15 mm when high curvature, large color gradients, or proximity to a plane is detected.[^25]
+- For each voxel, calculate the distance to the nearest point (`d_v`) and compute a weight (`w_v`) based on point density, color consistency, and local planarity.[^26]
+
+Example C++ code snippet:
+```cpp
+openvdb::initialize();
+using GridT = openvdb::FloatGrid;
+GridT::Ptr grid = GridT::create(/*background value*/ 3.0f);
+grid->setTransform(openvdb::math::Transform::createLinearTransform(coarse_voxel_size));
+
+// Create a point list for ParticlesToLevelSet
+struct PointList { 
+    using value_type = openvdb::Vec3R;
+    std::vector<openvdb::Vec3R> pts;
+    size_t size() const { return pts.size(); }
+    void getPos(size_t i, value_type& xyz) const { xyz = pts[i]; }
+} plist;
+for (auto &p : cloud->points) { plist.pts.emplace_back(p.x, p.y, p.z); }
+
+openvdb::tools::ParticlesToLevelSet<GridT> raster(*grid);
+raster.setGrainSize(1);
+raster.setRmin(0.02f); // Minimum particle radius
+raster.rasterizeSpheres(plist);
+raster.finalize();
+```
+Adaptive refinement can be achieved by iterating over the initial grid, checking surrounding curvature/color statistics to activate finer levels, for example, by dynamically inserting active voxels using OpenVDB's `tree` API.
+
+### 2. Construct and Solve the Graph Cut Energy Model
+
+According to the README, the energy model is:
+E(L) = Σ Dᵥ(Lᵥ) + λ Σ wᵤᵥ[Lᵤ ≠ Lᵥ]
+
+Where Dᵥ is the data term, wᵤᵥ is the smoothness term, and both are related to voxel weights and planar/detail regions.[^27]
+
+#### Specific Steps:
+1.  **Build Voxel Index**: Iterate through active voxels, assign an integer index to each, and record its neighbors (6/18/26-connectivity).
+2.  **Calculate Data and Smoothness Terms**:
+    - `D_v(inside) = w_v * φ(d_v)`, where `φ(d) = min(d/τ, 1)`, and `τ = 8–15 mm`.[^28]
+    - `D_v(free) = α * 1{v∈R_free} + γ * C_v`, where `C_v` is the visibility traversal cost.[^29]
+    - The smoothness term `w_{uv}` is weighted based on whether voxels are on the same plane, different planes, or in dense/sparse regions.[^30]
+3.  The parameter λ is increased to 0.8-1.2 in planar regions and decreased to 0.3-0.6 in detail regions.[^31]
+4.  **Create Graph Structure and Call Max-Flow Algorithm**:
+```cpp
+#include "maxflow/graph.h" // Assuming use of the BK Maxflow library
+typedef Graph<float, float, float> GraphType;
+GraphType *g = new GraphType(num_voxels, num_edges);
+
+for (int i = 0; i < num_voxels; ++i) {
+    g->add_node();
+    // source/sink capacities
+    g->add_tweights(i, Dv_free[i], Dv_inside[i]); 
+}
+
+for (auto &edge : edges) {
+    // undirected edge
+    g->add_edge(edge.u, edge.v, w_uv[edge_idx], w_uv[edge_idx]); 
+}
+
+float flow = g->maxflow();
+for (int i = 0; i < num_voxels; ++i) {
+    labels[i] = g->what_segment(i) == GraphType::SINK ? INSIDE : FREE;
+}
+delete g;
+```
+Implementations like the BK Maxflow library or Boost Graph's `boykov_kolmogorov_max_flow` can be used directly, avoiding the need to write a complex max-flow algorithm from scratch.[^32]
+
+### 3. Free Space Seeds and Visibility Penalty
+To prevent exterior space from being mislabeled as interior, it's necessary to automatically select interior seed points and establish a visibility mask.[^33] The steps are as follows:
+1.  Sample candidate voxel centers on a 0.5-1.0 m grid within the point cloud's convex hull, excluding points closer than 20-30 cm to the nearest point.[^34]
+2.  Perform a BFS flood fill on these empty voxels to find the largest connected free space, designated as `R_free`.[^35]
+3.  Enhance the `free` bias using height or color priors: for example, increase the `free` reward within the z-range of floors/ceilings, and increase the `inside` reward in areas with consistent wall colors.[^36]
+4.  Calculate the visibility traversal cost for each voxel: when a ray from an interior seed passes through the point cloud to reach a voxel, if it passes through many points, that voxel is more likely to be `inside`.[^29] PCL or Embree can be used to implement accelerated ray tracing.
+
+### 4. Dual Contouring and Mesh Regularization
+1.  **Dual Contouring**: Call OpenVDB's `volumeToMesh` or a custom DC implementation to extract the mesh. Note that when solving the Quadratic Error Function (QEF), add anisotropic regularization to preserve wall corners and sharp edges.[^37]
+2.  **Alpha Wrapping**: Use CGAL's 3D Alpha Wrapping on the initial shell mesh as a shrink-wrap, ensuring a valid topology and avoiding self-intersections.[^38]
+3.  **Plane Detection and Projection**: Use CGAL's Efficient RANSAC to detect planes with an area larger than a threshold.[^39] Project only vertices that are <15 mm from the plane and not on color/curvature boundaries onto the plane.[^39]
+4.  **Intersection Line Re-projection**: For adjacent planes, compute the least-squares intersection line and re-project nearby vertices onto this line using CGAL's `Line_3` API to ensure perfectly straight corners.[^40]
+5.  **Mesh Stitching**: Use CGAL PMP functions like `stitch_borders`, `remove_self_intersections`, and `orient_polygon_soup` to fix open boundaries and incorrect topology.[^41]
+
+After Stage 1 is complete, `outputs/mesh_shell.ply` should be output as the shell mesh, and intermediate results like the UDF and graph cut labels (`.vdb` files) should be cached.
+
+---
+
+## Stage 2: Detail Layer Reconstruction
+
+### 1. Detail Band Point Cloud Extraction
+- For each triangle center in the shell mesh, sample points outwards along the normal direction and use a k-d tree to query original points that are within a distance of ≤5-10 cm from the shell and on its exterior side.[^42]
+- Open3D's accelerated interfaces and `AABBTree` can be used for spatial queries.
+
+### 2. Reconstruction Method Selection
+The README provides two main methods to choose from:[^43]
+1.  **Adaptive Greedy Projection Triangulation (GP3)**: Suitable when normal quality is high. Set the local maximum edge length `Rᵢ = c * d_kNN(i)`, where `c ≈ 3`. Control the angle threshold and triangle angle range.[^44] PCL's `GreedyProjectionTriangulation` provides all these parameters. Example usage:
+    ```cpp
+    pcl::GreedyProjectionTriangulation<pcl::PointNormal> gp3;
+    gp3.setSearchRadius(3.0 * d_median);
+    gp3.setMu(2.8);
+    gp3.setMaximumNearestNeighbors(100);
+    gp3.setMaximumAngle(M_PI / 4);     // 45° planar region angle threshold
+    gp3.setMinimumAngle(M_PI / 18);    // 10°
+    gp3.setMaximumAngle(M_PI * 2 / 3); // 120°
+    gp3.setNormalConsistency(true);
+    gp3.reconstruct(triangles);
+    ```
+2.  **RIMLS → Dual Contouring**: When local normals are unstable or thin structures are dominant, first use RIMLS to estimate a local implicit function, then extract the surface via Dual Contouring.[^45] PyMeshLab provides ready-to-use RIMLS filtering and Marching Cubes (or DC) generation:
+    ```python
+    import pymeshlab
+    ms = pymeshlab.MeshSet()
+    ms.load_new_mesh('detail_band.ply')
+    ms.apply_filter('compute_curvature_and_color_rimls_per_vertex', h=0.01)
+    ms.apply_filter('generate_marching_cubes_rimls', decimation=0, ml_smoothing_step=5)
+    ms.save_current_mesh('mesh_detail.ply')
+    ```
+
+### 3. Detail Layer Regularization and Simplification
+- Use CGAL PMP's `remove_self_intersections` and `orient_polygon_soup` to clean up the detail mesh.[^46]
+- Use CGAL's `Surface_mesh_simplification` with Lindstrom-Turk or Garland-Heckbert strategies for moderate simplification, preserving high-curvature areas and reducing the triangle count.[^46]
+- Planar detection and projection similar to Stage 1 can be applied to the detail mesh, but with a smaller threshold.
+
+After Stage 2, `outputs/mesh_detail.ply` is output.
+
+---
+
+## Stage 3: Fusion & Boolean Operations
+
+The fusion stage takes the shell mesh as primary, preserves parts of the detail mesh that are >3-6 mm away from the shell, combines the shell and details via a Boolean union, and then performs a second Alpha Wrap.[^47]
+
+### 1. Detail Filtering and Boolean Union
+1.  For each detail triangle, calculate its closest distance to the shell mesh. If the distance is < a threshold (3-6 mm) and it is coplanar with the shell, it is discarded (i.e., "swallowed" by the shell).[^48]
+2.  Call `libigl`'s `mesh_boolean(A, B, UNION, C)` to perform a Boolean union between the shell and detail meshes.[^49]
+    ```cpp
+    Eigen::MatrixXd V_shell, V_detail, V_out;
+    Eigen::MatrixXi F_shell, F_detail, F_out;
+    igl::readPLY("mesh_shell.ply", V_shell, F_shell);
+    igl::readPLY("mesh_detail.ply", V_detail, F_detail);
+    igl::boolean::mesh_boolean(V_shell, F_shell, V_detail, F_detail,
+                               igl::MESH_BOOLEAN_TYPE_UNION, V_out, F_out);
+    ```
+
+### 2. Second Alpha Wrap and Normal Correction
+- Perform another Alpha Wrapping (with a 1-2 mm offset) and plane projection on the merged mesh to eliminate boundary artifacts from the Boolean operation.[^50]
+- Use `libigl` or PMP's vertex merging functions (`remove_duplicated_vertices`, `unique_rows`) to weld vertices, then recompute normals.
+
+### 3. Color Fusion and Texture Assignment
+- For shell vertices, sample colors from within their corresponding planar regions. Detail vertices directly inherit their original colors. At the boundary between the shell and details, blend the colors with weights (e.g., 70% shell color, 30% detail color).[^51]
+- MeshLab's "Transfer Vertex Color" filter can be used as a reference implementation.
+
+The final generated mesh is output as `outputs/mesh_final.ply`.
+
+---
+
+## Stage 4: LOD Generation & Export
+- Use CGAL's `Surface_mesh_simplification` with different stopping conditions and regional weights to simplify planar and detail areas separately, generating LOD1 (1-2M triangles) and LOD2 (0.3-0.6M triangles).[^52]
+- Use Open3D or Assimp to export the mesh to PLY, OBJ, and GLB formats.[^53]
+- As recommended by the README, recompute normals and maintain vertex colors each time an LOD is produced.
+
+---
+
+## Stage 5: Quality Control & Evaluation
+
+Generate a quality report with metrics as defined in Section 7 of the README.[^16]
+
+| Metric                  | Description                                                                                             | Implementation Suggestion                                                                                               |
+| ----------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Planarity Residual**  | Plane fitting RMS and 90th percentile should be ≤3-6 mm / 8-12 mm.                                        | For each large plane, perform a least-squares fit, calculate the distribution of point-to-plane distances, and output statistics. |
+| **Orthogonality Dev.**  | Deviation of wall-to-floor/wall-to-wall angles from 90° should not exceed 1.0-1.5°.                       | Calculate the angles between detected plane normals.                                                                    |
+| **Detail Recall Rate**  | Hausdorff distance to GT ≤10-15 mm; Area/Volume deviation ≤10-15%.                                       | Use CGAL's `approximate_Hausdorff_distance()` to calculate the distance between the point cloud and mesh; compare volumes. |
+| **Topological Validity**| No self-intersections, no non-manifold edges.                                                           | Use `libigl`'s `is_vertex_manifold()` and PMP's `remove_self_intersections` for detection.                              |
+| **Mesh-to-Cloud Fidelity** | Absolute median distance ≤5-8 mm; 95% percentile ≤20 mm.                                                | Build a k-d tree and calculate the closest distance from each mesh vertex to the point cloud.                           |
+| **Indoor-Outdoor Correctness** | Interior voxel coverage ≈ 1, exterior ≈ 0.                                                        | Combined with the visibility check from Stage 1, use a seed-based flood fill to verify each voxel's label correctness.      |
+| **Rendering Health**    | Consistent normal orientation, no large-scale flips.                                                    | Use `libigl`'s `orient_outward_ao` to adjust the entire mesh to face outwards.                                          |
+
+Use Python and `matplotlib` to generate tables, histograms, and heatmaps, and output an HTML report (e.g., `reports/qc.html`) for team review.
+
+---
+
+## Automated Testing & CI
+- **Unit Tests**: Maintain existing `pytest` tests and add new unit tests for each module in Stages 0-3. Use small-scale synthetic point clouds (e.g., sphere, cube, synthetic indoor scene) to verify algorithm correctness.
+- **Integration Tests**: Build a complete run script for a low-resolution scene (2-4M points). In CI, compile the C++ module, run the reconstruction pipeline, and check if the output mesh meets quality metrics.
+- **Continuous Integration**: Use GitHub Actions to run Conda setup, C++ compilation, and Python tests in a Linux environment, and upload the generated LOD meshes and quality report as artifacts.
+
+---
+
+## Summary & Recommendations
+
+The project currently only implements the most basic demonstration program, but the README provides a very detailed and reasonable design. Implementing the full pipeline is a systems engineering task that requires C++ and Python collaboration and relies on multiple libraries like OpenVDB, PCL, CGAL, libigl, Open3D, and PyMeshLab. It is recommended to proceed step-by-step through the five stages outlined above, generating corresponding outputs at the end of each stage, and writing unit tests and audit scripts. Key points to pay attention to include:
+
+- **UDF construction and graph cut solving** are the core of shell generation and require significant engineering effort in voxel division, weight design, and max-flow solving.
+- **Plane detection and geometric regularization** have a huge impact on mesh quality and should be handled carefully by combining color gradients and curvature information.
+- The choice of **detail layer reconstruction method** (GP3 vs. RIMLS+DC) should be determined by the normal quality of the actual data.
+- **Color fusion and quality evaluation** are guarantees of the final product's quality and require custom logic and discussion with the team about thresholds and acceptance criteria.
+
+By strictly following the design in the README and rationally utilizing existing open-source libraries, it is possible to build a robust and tunable indoor point cloud reconstruction system, producing high-quality mesh models for visualization, interaction, or downstream tasks.
+
+---
+[^1]: <https://raw.githubusercontent.com/Lyudmira/mesh/main/README.md>
+[^2]: raw.githubusercontent.com (The original document had this as a separate entry, likely a mistake. It points to the same domain as the README).
+[^3]: <https://raw.githubusercontent.com/Lyudmira/mesh/main/environment.yml>
+[^4]: <https://github.com/Lyudmira/mesh/blob/main/recon/src/pipeline.cpp>
+[^5]: <https://github.com/Lyudmira/mesh/blob/main/recon/scripts/pipeline.py>
+[^6]: <https://github.com/Lyudmira/mesh/blob/main/tests/test_cpp_build.py>
+[^7,17]: <https://github.com/Lyudmira/mesh/blob/main/tests/test_pipeline.py>
+[^8-16,18-52]; see ref 1
+
+[^53]: See Ref 1
