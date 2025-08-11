@@ -1,0 +1,15 @@
+name: mesh-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - openvdb
+  - pcl
+  - cgal-cpp
+  - igl
+  - open3d
+  - pymeshlab
+  - pytest
+  - pkg-config
+  - cmake
+  - eigen
