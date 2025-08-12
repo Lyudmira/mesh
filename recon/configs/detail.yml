@@ -1,0 +1,82 @@
+# 室内点云重建项目 - 细节重建配置文件
+# Stage 2: 细节层重建
+
+# 几何提取参数
+geometry_extraction:
+  # 偏移带定义
+  offset_distance: 0.08  # 8厘米偏移带
+  outside_only: true     # 仅提取外壳外侧点
+  
+  # 去噪参数
+  denoising:
+    enable: true
+    method: "bilateral"  # bilateral, rimls, wlop
+    radius_multiplier: 1.5
+
+# 重建方法选择
+reconstruction:
+  # 主要方法：GP3 或 RIMLS
+  primary_method: "gp3"  # gp3, rimls
+  
+  # GP3参数
+  gp3:
+    # 自适应参数
+    edge_length_multiplier: 3.0
+    mu: 2.8
+    
+    # 角度阈值
+    angle_threshold:
+      planar_regions: 45.0    # 度
+      edge_regions: 30.0      # 度
+    
+    # 三角形约束
+    triangle_angles:
+      min_angle: 12.0         # 度
+      max_angle: 115.0        # 度
+    
+    # 其他参数
+    max_nearest_neighbors: 100
+    normal_consistency: true
+    
+  # RIMLS参数（备选方法）
+  rimls:
+    bandwidth: 1.6
+    voxel_size: 0.01  # 1厘米体素
+    smoothing_steps: 5
+
+# 后处理参数
+post_processing:
+  # 清理
+  cleanup:
+    remove_hanging_edges: true
+    filter_small_components: true
+    min_component_size: 50  # 最小组件三角形数
+  
+  # PMP修复
+  pmp_repair:
+    enable: true
+    fix_self_intersections: true
+    fix_non_manifold: true
+  
+  # 简化
+  simplification:
+    enable: true
+    method: "quadric_edge_collapse"
+    preserve_sharp_edges: true
+    angle_threshold: 60.0  # 度
+    reduction_ratio: 0.9   # 保留90%三角形
+
+# 质量控制
+quality_control:
+  # 网格验证
+  validation:
+    check_manifold: true
+    check_orientation: true
+    max_edge_length: 0.1   # 10厘米最大边长
+  
+  # 特征保持
+  feature_preservation:
+    sharp_edge_threshold: 45.0  # 度
+    preserve_boundaries: true
+    preserve_corners: true
+

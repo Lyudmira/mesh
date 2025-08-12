@@ -1,0 +1,50 @@
+# 室内点云重建项目 - 全局配置文件
+# 版本: 1.0
+# 日期: 2025-08-12
+
+# 项目基础设置
+project:
+  name: "indoor_point_cloud_reconstruction"
+  version: "1.0.0"
+  description: "双层混合管道室内点云重建系统"
+
+# 硬件和性能设置
+hardware:
+  # 推荐配置：RTX 4090, 64GB RAM
+  # 当前环境：CPU only, 3.8GB RAM
+  use_gpu: false
+  max_threads: 4
+  memory_limit_gb: 3.0  # 保守设置，留出系统内存
+
+# 输入输出设置
+io:
+  input_format: "ply"
+  output_format: "obj"
+  coordinate_system: "right_handed"
+  unit: "meters"
+  
+# 场景参数
+scene:
+  # 推荐场景：40x10x3米
+  # 调整为适合当前环境的小场景
+  max_dimensions: [10.0, 10.0, 3.0]  # 米
+  buffer_margin: 0.1  # 10厘米缓冲区
+
+# 质量控制
+quality:
+  target_triangle_count:
+    full: 500000      # 降低目标三角形数量
+    lod1: 200000
+    lod2: 50000
+  
+  validation:
+    check_manifold: true
+    check_watertight: true
+    check_self_intersection: true
+
+# 日志和调试
+logging:
+  level: "INFO"
+  save_intermediate: true
+  save_debug_info: false
+
