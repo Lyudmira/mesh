@@ -3,13 +3,15 @@
 #include <pcl/filters/fast_bilateral.h>
 #include <pcl/surface/mls.h>
 #include <pcl/surface/poisson.h>
-#include <pcl/surface/wlop.h>
+// WLOP算法由CGAL提供，不是PCL
+// #include <pcl/surface/wlop.h>
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/common/geometry.h>
 #include <pcl/common/centroid.h>
 #include <pcl/console/time.h>
 
-#include <igl/signed_distance.h>
+// libigl C++头文件在conda环境中不可用，使用Python绑定
+// #include <igl/signed_distance.h>
 
 #include <map>
 #include <set>
@@ -21,8 +23,9 @@
 
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Surface_mesh.h>
-#include <CGAL/Polygon_mesh_processing/remove_self_intersections.h>
-#include <CGAL/Polygon_mesh_processing/remove_degenerate_faces.h>
+// 某些CGAL头文件在当前版本中不可用，暂时注释
+// #include <CGAL/Polygon_mesh_processing/repair_self_intersections.h>
+// #include <CGAL/Polygon_mesh_processing/remove_degenerate_faces.h>
 
 namespace recon {
 

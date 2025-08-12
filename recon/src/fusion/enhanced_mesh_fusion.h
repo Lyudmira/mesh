@@ -28,6 +28,16 @@
 #include <pcl/PolygonMesh.h>
 #include <pcl/kdtree/kdtree_flann.h>
 #include <Eigen/Dense>
+
+// 自定义pair哈希函数
+namespace std {
+    template<>
+    struct hash<std::pair<int, int>> {
+        size_t operator()(const std::pair<int, int>& p) const {
+            return std::hash<int>()(p.first) ^ (std::hash<int>()(p.second) << 1);
+        }
+    };
+}
 #include <Eigen/Sparse>
 
 #ifdef _OPENMP

@@ -35,10 +35,11 @@
 #include "udf_builder/udf_builder.h"
 #include "graph_cut/graph_cut.h"
 #include "dual_contouring/dual_contouring.h"
-#include "detail_reconstruction.h"
-#include "detail_reconstruction.cpp"
-#include "fusion/mesh_fusion.h"
-#include "fusion/mesh_fusion.cpp"
+// 暂时注释掉有问题的模块，专注于UDF实现
+// #include "detail_reconstruction.h"
+// #include "detail_reconstruction.cpp"
+// #include "fusion/mesh_fusion.h"
+// #include "fusion/mesh_fusion.cpp"
 
 // 标准库
 #include <vector>
@@ -477,7 +478,8 @@ int main(int argc, char** argv) {
             std::cerr << "细节重建失败，继续使用外壳网格" << std::endl;
         }
 
-        // 5. 融合与布尔运算
+        // 5. 融合与布尔运算 - 暂时注释，待实现
+        /*
         MeshFusionConfig fusion_cfg;
         MeshFuser fuser(fusion_cfg);
         pcl::PolygonMesh fused;
@@ -488,6 +490,10 @@ int main(int argc, char** argv) {
             pcl::concatenatePolygonMeshes(mesh, detail_mesh, fused);
             mesh.swap(fused);
         }
+        */
+        
+        // 暂时跳过融合，直接使用外壳网格
+        std::cout << "暂时跳过融合步骤，使用外壳网格" << std::endl;
 
         // 6. 保存结果
         std::cout << "保存网格: " << output_file << std::endl;
