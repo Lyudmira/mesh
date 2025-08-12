@@ -97,13 +97,14 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src/udf_builder
     ${CMAKE_CURRENT_SOURCE_DIR}/src/graph_cut
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dual_contouring
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/detail_layer
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/fusion
     ${OPENVDB_INCLUDE_DIR}
 )
 
 # 源文件
 set(SOURCES
-    src/pipeline.cpp
-    src/udf_builder/udf_builder.cpp
+    src/simple_pipeline.cpp
 )
 
 # 创建可执行文件

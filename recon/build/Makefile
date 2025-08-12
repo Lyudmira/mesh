@@ -57,10 +57,10 @@ RM = /home/ubuntu/.local/share/mamba/envs/mesh-env/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ubuntu/recon
+CMAKE_SOURCE_DIR = /home/ubuntu/mesh-ckpt_3/recon
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ubuntu/recon/build
+CMAKE_BINARY_DIR = /home/ubuntu/mesh-ckpt_3/recon/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,9 +132,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/recon/build/CMakeFiles /home/ubuntu/recon/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/mesh-ckpt_3/recon/build/CMakeFiles /home/ubuntu/mesh-ckpt_3/recon/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/recon/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ubuntu/mesh-ckpt_3/recon/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -174,53 +174,29 @@ pipeline/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/build
 .PHONY : pipeline/fast
 
-src/pipeline.o: src/pipeline.cpp.o
-.PHONY : src/pipeline.o
+src/simple_pipeline.o: src/simple_pipeline.cpp.o
+.PHONY : src/simple_pipeline.o
 
 # target to build an object file
-src/pipeline.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/pipeline.cpp.o
-.PHONY : src/pipeline.cpp.o
+src/simple_pipeline.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/simple_pipeline.cpp.o
+.PHONY : src/simple_pipeline.cpp.o
 
-src/pipeline.i: src/pipeline.cpp.i
-.PHONY : src/pipeline.i
-
-# target to preprocess a source file
-src/pipeline.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/pipeline.cpp.i
-.PHONY : src/pipeline.cpp.i
-
-src/pipeline.s: src/pipeline.cpp.s
-.PHONY : src/pipeline.s
-
-# target to generate assembly for a file
-src/pipeline.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/pipeline.cpp.s
-.PHONY : src/pipeline.cpp.s
-
-src/udf_builder/udf_builder.o: src/udf_builder/udf_builder.cpp.o
-.PHONY : src/udf_builder/udf_builder.o
-
-# target to build an object file
-src/udf_builder/udf_builder.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/udf_builder/udf_builder.cpp.o
-.PHONY : src/udf_builder/udf_builder.cpp.o
-
-src/udf_builder/udf_builder.i: src/udf_builder/udf_builder.cpp.i
-.PHONY : src/udf_builder/udf_builder.i
+src/simple_pipeline.i: src/simple_pipeline.cpp.i
+.PHONY : src/simple_pipeline.i
 
 # target to preprocess a source file
-src/udf_builder/udf_builder.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/udf_builder/udf_builder.cpp.i
-.PHONY : src/udf_builder/udf_builder.cpp.i
+src/simple_pipeline.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/simple_pipeline.cpp.i
+.PHONY : src/simple_pipeline.cpp.i
 
-src/udf_builder/udf_builder.s: src/udf_builder/udf_builder.cpp.s
-.PHONY : src/udf_builder/udf_builder.s
+src/simple_pipeline.s: src/simple_pipeline.cpp.s
+.PHONY : src/simple_pipeline.s
 
 # target to generate assembly for a file
-src/udf_builder/udf_builder.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/udf_builder/udf_builder.cpp.s
-.PHONY : src/udf_builder/udf_builder.cpp.s
+src/simple_pipeline.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipeline.dir/build.make CMakeFiles/pipeline.dir/src/simple_pipeline.cpp.s
+.PHONY : src/simple_pipeline.cpp.s
 
 # Help Target
 help:
@@ -235,12 +211,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... pipeline"
-	@echo "... src/pipeline.o"
-	@echo "... src/pipeline.i"
-	@echo "... src/pipeline.s"
-	@echo "... src/udf_builder/udf_builder.o"
-	@echo "... src/udf_builder/udf_builder.i"
-	@echo "... src/udf_builder/udf_builder.s"
+	@echo "... src/simple_pipeline.o"
+	@echo "... src/simple_pipeline.i"
+	@echo "... src/simple_pipeline.s"
 .PHONY : help
 
 
