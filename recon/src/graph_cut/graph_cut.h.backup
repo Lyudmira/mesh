@@ -2,7 +2,7 @@
  * 图割优化模块头文件
  * 负责通过图割算法优化UDF的内外分割
  * 
- * 版本: 2.0 - 集成PyMaxflow高性能求解器
+ * 版本: 1.0
  * 日期: 2025-08-12
  */
 
@@ -15,7 +15,6 @@
 #include <openvdb/openvdb.h>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
-#include "pymaxflow_solver.h"  // 引入PyMaxflow求解器
 
 namespace recon {
 
@@ -232,6 +231,33 @@ private:
      * 自由空间泛洪
      */
     void floodFillFreeRegion(const std::vector<openvdb::Coord>& seeds);
+};
+
+/**
+ * 简化的最大流求解器
+ * 实际项目中应该使用专业的图割库如BK-Maxflow
+ */
+class SimpleMaxFlowSolver {
+public:
+    struct Edge {
+        int to, rev;
+        float cap;
+    };
+    
+    explicit SimpleMaxFlowSolver(int n);
+    
+    void addEdge(int from, int to, float cap);
+    float maxFlow(int s, int t);
+    bool isSourceSide(int v) const;
+
+private:
+    std::vector<std::vector<Edge>> graph_;
+    std::vector<int> level_, iter_;
+    int n_;
+    std::vector<bool> source_side_;
+    
+    bool bfs(int s, int t);
+    float dfs(int v, int t, float f);
 };
 
 } // namespace recon

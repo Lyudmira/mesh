@@ -204,37 +204,22 @@ float GraphCutOptimizer::computeVisibilityCost(const openvdb::Coord& coord,
 
 bool GraphCutOptimizer::solveMaxFlow() {
     int n = static_cast<int>(nodes_.size());
-    
-    // 创建PyMaxflow求解器
-    PyMaxflowSolver solver(n);
-    
-    // 添加数据项（源汇边）
+    int source = n;
+    int sink = n + 1;
+    SimpleMaxFlowSolver solver(n + 2);
     for (int i = 0; i < n; ++i) {
         auto costs = computeDataCosts(nodes_[i], cloud_);
-        solver.addTerminalEdge(i, costs.first, costs.second);
+        solver.addEdge(source, i, costs.first);
+        solver.addEdge(i, sink, costs.second);
     }
-    
-    // 添加平滑项边
     for (const auto& e : edges_) {
-        solver.addEdge(e.node1, e.node2, e.weight, e.weight);
+        solver.addEdge(e.node1, e.node2, e.weight);
+        solver.addEdge(e.node2, e.node1, e.weight);
     }
-    
-    // 求解最大流
-    auto result = solver.solve();
-    
-    if (!result.success) {
-        std::cerr << "PyMaxflow求解失败: " << result.error_message << std::endl;
-        return false;
-    }
-    
-    // 更新统计信息
-    stats_.max_flow_value = result.flow_value;
-    
-    // 更新节点标签
+    stats_.max_flow_value = solver.maxFlow(source, sink);
     for (int i = 0; i < n; ++i) {
         nodes_[i].label = solver.isSourceSide(i) ? Label::FREE : Label::INSIDE;
     }
-    
     return true;
 }
 
@@ -295,6 +280,81 @@ void GraphCutOptimizer::floodFillFreeRegion(const std::vector<openvdb::Coord>& s
             q.push(j);
         }
     }
+}
+
+// SimpleMaxFlowSolver implementation
+
+SimpleMaxFlowSolver::SimpleMaxFlowSolver(int n) : graph_(n), level_(n), iter_(n), n_(n), source_side_(n,false) {}
+
+void SimpleMaxFlowSolver::addEdge(int from, int to, float cap) {
+    graph_[from].push_back(Edge{to, static_cast<int>(graph_[to].size()), cap});
+    graph_[to].push_back(Edge{from, static_cast<int>(graph_[from].size()) - 1, 0.0f});
+}
+
+bool SimpleMaxFlowSolver::bfs(int s, int t) {
+    std::fill(level_.begin(), level_.end(), -1);
+    std::queue<int> q;
+    level_[s] = 0;
+    q.push(s);
+    while(!q.empty()) {
+        int v = q.front(); q.pop();
+        for(const auto& e : graph_[v]) {
+            if(e.cap > 1e-6 && level_[e.to] < 0) {
+                level_[e.to] = level_[v] + 1;
+                q.push(e.to);
+            }
+        }
+    }
+    return level_[t] >= 0;
+}
+
+float SimpleMaxFlowSolver::dfs(int v, int t, float f) {
+    if(v == t) return f;
+    for(int &i = iter_[v]; i < static_cast<int>(graph_[v].size()); ++i) {
+        Edge &e = graph_[v][i];
+        if(e.cap > 1e-6 && level_[v] < level_[e.to]) {
+            float d = dfs(e.to, t, std::min(f, e.cap));
+            if(d > 1e-6) {
+                e.cap -= d;
+                graph_[e.to][e.rev].cap += d;
+                return d;
+            }
+        }
+    }
+    return 0.0f;
+}
+
+float SimpleMaxFlowSolver::maxFlow(int s, int t) {
+    float flow = 0.0f;
+    const float INF = std::numeric_limits<float>::max();
+    while(bfs(s,t)) {
+        std::fill(iter_.begin(), iter_.end(), 0);
+        float f;
+        while((f = dfs(s,t,INF)) > 1e-6) {
+            flow += f;
+        }
+    }
+    // mark source side
+    std::vector<bool> visited(n_, false);
+    std::queue<int> q;
+    q.push(s);
+    visited[s] = true;
+    while(!q.empty()) {
+        int v = q.front(); q.pop();
+        source_side_[v] = true;
+        for(const auto& e : graph_[v]) {
+            if(e.cap > 1e-6 && !visited[e.to]) {
+                visited[e.to] = true;
+                q.push(e.to);
+            }
+        }
+    }
+    return flow;
+}
+
+bool SimpleMaxFlowSolver::isSourceSide(int v) const {
+    if (v < 0 || v >= n_) return false;
+    return source_side_[v];
 }
 
 } // namespace recon
