@@ -1,0 +1,142 @@
+Performance Report
+==================
+Generated at: 2025-08-12 10:24:02
+Total metrics: 47
+
+Aggregated Statistics:
+----------------------
+algorithm_iteration_0_avg     :        0.009045
+algorithm_iteration_0_count   :        1.000000
+algorithm_iteration_0_sum     :        0.009045
+algorithm_iteration_1_avg     :        0.080926
+algorithm_iteration_1_count   :        1.000000
+algorithm_iteration_1_sum     :        0.080926
+algorithm_iteration_2_avg     :        0.012899
+algorithm_iteration_2_count   :        1.000000
+algorithm_iteration_2_sum     :        0.012899
+algorithm_iteration_3_avg     :        0.099348
+algorithm_iteration_3_count   :        1.000000
+algorithm_iteration_3_sum     :        0.099348
+algorithm_iteration_4_avg     :        0.098325
+algorithm_iteration_4_count   :        1.000000
+algorithm_iteration_4_sum     :        0.098325
+algorithm_iteration_5_avg     :        0.086605
+algorithm_iteration_5_count   :        1.000000
+algorithm_iteration_5_sum     :        0.086605
+algorithm_iteration_6_avg     :        0.049601
+algorithm_iteration_6_count   :        1.000000
+algorithm_iteration_6_sum     :        0.049601
+algorithm_iteration_7_avg     :        0.078029
+algorithm_iteration_7_count   :        1.000000
+algorithm_iteration_7_sum     :        0.078029
+algorithm_iteration_8_avg     :        0.082567
+algorithm_iteration_8_count   :        1.000000
+algorithm_iteration_8_sum     :        0.082567
+algorithm_iteration_9_avg     :        0.029992
+algorithm_iteration_9_count   :        1.000000
+algorithm_iteration_9_sum     :        0.029992
+cpu_usage_avg                 :        0.333229
+cpu_usage_count               :        3.000000
+cpu_usage_max                 :        0.999688
+cpu_usage_min                 :        0.000000
+cpu_usage_sum                 :        0.999688
+current_cpu_percent_avg       :       45.200000
+current_cpu_percent_count     :        1.000000
+current_cpu_percent_sum       :       45.200000
+current_memory_mb_avg         :      256.500000
+current_memory_mb_count       :        1.000000
+current_memory_mb_sum         :      256.500000
+iterations_completed_avg      :        1.000000
+iterations_completed_count    :       10.000000
+iterations_completed_max      :        1.000000
+iterations_completed_min      :        1.000000
+iterations_completed_sum      :       10.000000
+memory_usage_avg              :  6353715.200000
+memory_usage_count            :        5.000000
+memory_usage_max              :  8085504.000000
+memory_usage_min              :  3756032.000000
+memory_usage_sum              : 31768576.000000
+nested_operation_avg          :        0.050138
+nested_operation_count        :        1.000000
+nested_operation_sum          :        0.050138
+points_per_second_avg         :    50000.000000
+points_per_second_count       :        1.000000
+points_per_second_sum         :    50000.000000
+processed_points_avg          :     1500.000000
+processed_points_count        :        3.000000
+processed_points_max          :     2000.000000
+processed_points_min          :     1000.000000
+processed_points_sum          :     4500.000000
+processing_rate_avg           :    31411.158447
+processing_rate_count         :       10.000000
+processing_rate_max           :   112832.386562
+processing_rate_min           :    10078.368369
+processing_rate_sum           :   314111.584469
+test_operation_avg            :        0.150301
+test_operation_count          :        1.000000
+test_operation_sum            :        0.150301
+triangles_per_second_avg      :    25000.000000
+triangles_per_second_count    :        1.000000
+triangles_per_second_sum      :    25000.000000
+
+Detailed Metrics:
+-----------------
+
+Category: General
+-----------------
+test_operation           :        0.150301 seconds (2025-08-12 10:24:00.361)
+processed_points         :     1000.000000 (2025-08-12 10:24:00.361)
+processed_points         :     2000.000000 (2025-08-12 10:24:00.361)
+processed_points         :     1500.000000 (2025-08-12 10:24:00.361)
+current_memory_mb        :      256.500000 (2025-08-12 10:24:00.361)
+current_cpu_percent      :       45.200000 (2025-08-12 10:24:00.361)
+points_per_second        :    50000.000000 (2025-08-12 10:24:00.361)
+triangles_per_second     :    25000.000000 (2025-08-12 10:24:00.361)
+
+Category: algorithm
+-------------------
+nested_operation         :        0.050138 seconds (2025-08-12 10:24:00.361)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.374)
+processing_rate          :   112832.386562 items/sec (2025-08-12 10:24:00.374)
+algorithm_iteration_0    :        0.009045 seconds (2025-08-12 10:24:00.374)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.455)
+processing_rate          :    12389.865601 items/sec (2025-08-12 10:24:00.455)
+algorithm_iteration_1    :        0.080926 seconds (2025-08-12 10:24:00.455)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.468)
+processing_rate          :    78284.064038 items/sec (2025-08-12 10:24:00.468)
+algorithm_iteration_2    :        0.012899 seconds (2025-08-12 10:24:00.468)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.567)
+processing_rate          :    10078.368369 items/sec (2025-08-12 10:24:00.567)
+algorithm_iteration_3    :        0.099348 seconds (2025-08-12 10:24:00.567)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.665)
+processing_rate          :    10189.456891 items/sec (2025-08-12 10:24:00.665)
+algorithm_iteration_4    :        0.098325 seconds (2025-08-12 10:24:00.665)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.752)
+processing_rate          :    11576.605614 items/sec (2025-08-12 10:24:00.752)
+algorithm_iteration_5    :        0.086605 seconds (2025-08-12 10:24:00.752)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.802)
+processing_rate          :    20206.090060 items/sec (2025-08-12 10:24:00.802)
+algorithm_iteration_6    :        0.049601 seconds (2025-08-12 10:24:00.802)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.880)
+processing_rate          :    12837.393802 items/sec (2025-08-12 10:24:00.880)
+algorithm_iteration_7    :        0.078029 seconds (2025-08-12 10:24:00.880)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.962)
+processing_rate          :    12131.156507 items/sec (2025-08-12 10:24:00.962)
+algorithm_iteration_8    :        0.082567 seconds (2025-08-12 10:24:00.962)
+iterations_completed     :        1.000000 count (2025-08-12 10:24:00.992)
+processing_rate          :    33586.197027 items/sec (2025-08-12 10:24:00.992)
+algorithm_iteration_9    :        0.029992 seconds (2025-08-12 10:24:00.992)
+
+Category: memory
+----------------
+memory_usage             :  3756032.000000 bytes (2025-08-12 10:24:00.211)
+memory_usage             :  3756032.000000 bytes (2025-08-12 10:24:00.362)
+memory_usage             :  8085504.000000 bytes (2025-08-12 10:24:00.365)
+memory_usage             :  8085504.000000 bytes (2025-08-12 10:24:01.212)
+memory_usage             :  8085504.000000 bytes (2025-08-12 10:24:02.212)
+
+Category: system
+----------------
+cpu_usage                :        0.000000 percent (2025-08-12 10:24:00.211)
+cpu_usage                :        0.999688 percent (2025-08-12 10:24:01.212)
+cpu_usage                :        0.000000 percent (2025-08-12 10:24:02.212)

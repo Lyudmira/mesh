@@ -1,0 +1,100 @@
+[2025-08-12 03:49:39.314] [INFO] [GEN] Enhanced Pipeline Test Started
+[2025-08-12 03:49:39.314] [INFO] [GEN] Test data generated | Data: test_points=1000 
+[2025-08-12 03:49:39.314] [INFO] [GEN] === ENHANCED RECONSTRUCTION PIPELINE START === | Data: input_points=1000 
+[2025-08-12 03:49:39.314] [INFO] [GEN] === STAGE START: data_preprocessing ===
+[2025-08-12 03:49:39.314] [INFO] [GEN] Input statistics for data_preprocessing | Data: input_points=1000 unit_scale=1 voxel_size=0.1 
+[2025-08-12 03:49:39.314] [INFO] [MEM] Memory usage at data_preprocessing_start | Data: memory_gb=0.00317383 memory_kb=3328 memory_mb=3.25 
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Normalizing coordinates | Data: unit_scale=1 
+[2025-08-12 03:49:39.314] [INFO] [VALID] Bounding box computed | Data: max_x=4.9966 max_y=4.99033 max_z=1.49998 min_x=-4.99589 min_y=-4.98674 min_z=-1.49878 size_x=9.9925 size_y=9.97707 size_z=2.99876 
+[2025-08-12 03:49:39.314] [INFO] [PERF] Timer coordinate_normalization completed | Data: duration_ms=0.035 
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Removing outliers | Data: std_threshold=2.5 
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Outlier removal completed | Data: distance_mean=3.96426 distance_std=1.36885 original_points=1000 remaining_points=1000 removal_ratio=0 removed_points=0 threshold=7.38638 
+[2025-08-12 03:49:39.314] [INFO] [PERF] Timer outlier_removal completed | Data: duration_ms=0.032 
+[2025-08-12 03:49:39.314] [DEBUG] [PERF] Metric recorded: outliers_removed | Data: value=0 
+[2025-08-12 03:49:39.314] [DEBUG] [PERF] Metric recorded: outlier_ratio | Data: value=0 
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Estimating normals | Data: k_neighbors=32 
+[2025-08-12 03:49:39.372] [INFO] [ALGO] Normal estimation completed
+[2025-08-12 03:49:39.372] [INFO] [PERF] Timer normal_estimation completed | Data: duration_ms=57.746 
+[2025-08-12 03:49:39.372] [INFO] [ALGO] Applying denoising | Data: radius=0.2 
+[2025-08-12 03:49:39.374] [INFO] [ALGO] Denoising completed
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer denoising completed | Data: duration_ms=2.302 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Applying density balancing | Data: voxel_size=0.1 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Density balancing completed | Data: original_points=1000 sampled_points=968 sampling_ratio=0.968 voxels_used=968 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer density_balancing completed | Data: duration_ms=0.334 
+[2025-08-12 03:49:39.375] [DEBUG] [PERF] Metric recorded: sampling_ratio | Data: value=0.968 
+[2025-08-12 03:49:39.375] [INFO] [VALID] Validating preprocessing results
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: point_count PASSED | Data: expected_max=1e+07 expected_min=100 valid=1 value=968 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: points
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: bounding_box_x PASSED | Data: expected_max=100 expected_min=0.1 valid=1 value=9.9925 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: bounding_box_y PASSED | Data: expected_max=100 expected_min=0.1 valid=1 value=9.97707 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: bounding_box_z PASSED | Data: expected_max=20 expected_min=0.1 valid=1 value=2.99876 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.375] [WARN] [VALID] Data validation: point_density FAILED | Data: expected_max=100000 expected_min=10 valid=0 value=3.23784 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: points/m³
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: normal_validity_ratio PASSED | Data: expected_max=1 expected_min=0.8 valid=1 value=1 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: ratio
+[2025-08-12 03:49:39.375] [INFO] [VALID] Preprocessing validation completed | Data: normal_validity_ratio=1 valid_normals=968 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer data_preprocessing completed | Data: duration_ms=60.762 
+[2025-08-12 03:49:39.375] [INFO] [GEN] === STAGE END: data_preprocessing === | Data: duration_ms=60.762 
+[2025-08-12 03:49:39.375] [INFO] [GEN] Output statistics for data_preprocessing | Data: final_sampling_ratio=0.968 outliers_removed=0 output_points=968 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at data_preprocessing_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [GEN] === STAGE START: shell_reconstruction ===
+[2025-08-12 03:49:39.375] [INFO] [GEN] Input statistics for shell_reconstruction | Data: input_points=968 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at shell_reconstruction_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Shell reconstruction completed | Data: shell_faces=4 shell_vertices=4 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer shell_reconstruction completed | Data: duration_ms=0.051 
+[2025-08-12 03:49:39.375] [INFO] [GEN] === STAGE END: shell_reconstruction === | Data: duration_ms=0.051 
+[2025-08-12 03:49:39.375] [INFO] [GEN] Output statistics for shell_reconstruction | Data: shell_faces=4 shell_vertices=4 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at shell_reconstruction_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [GEN] === STAGE START: detail_reconstruction ===
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at detail_reconstruction_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Detail reconstruction completed | Data: detail_faces=33 detail_vertices=100 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer detail_reconstruction completed | Data: duration_ms=0.036 
+[2025-08-12 03:49:39.375] [INFO] [GEN] === STAGE END: detail_reconstruction === | Data: duration_ms=0.036 
+[2025-08-12 03:49:39.375] [INFO] [GEN] Output statistics for detail_reconstruction | Data: detail_faces=33 detail_vertices=100 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at detail_reconstruction_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [GEN] === STAGE START: mesh_fusion ===
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at mesh_fusion_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Mesh fusion completed | Data: detail_contribution=0.961538 fused_faces=37 fused_vertices=104 shell_contribution=0.0384615 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer mesh_fusion completed | Data: duration_ms=0.037 
+[2025-08-12 03:49:39.376] [INFO] [GEN] === STAGE END: mesh_fusion === | Data: duration_ms=0.037 
+[2025-08-12 03:49:39.376] [INFO] [GEN] Output statistics for mesh_fusion | Data: final_faces=37 final_vertices=104 
+[2025-08-12 03:49:39.376] [INFO] [MEM] Memory usage at mesh_fusion_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.376] [INFO] [GEN] === STAGE START: quality_assessment ===
+[2025-08-12 03:49:39.376] [INFO] [MEM] Memory usage at quality_assessment_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.376] [INFO] [QUAL] Quality assessment completed | Data: feature_preservation_score=0.907466 hausdorff_distance=0.0146501 memory_usage_mb=0.00439072 mesh_quality_score=0.724476 planarity_rms=0.00667798 processing_time_ms=0 triangle_count=37 vertex_count=104 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Timer quality_assessment completed | Data: duration_ms=0.056 
+[2025-08-12 03:49:39.376] [INFO] [GEN] === STAGE END: quality_assessment === | Data: duration_ms=0.056 
+[2025-08-12 03:49:39.376] [INFO] [GEN] Output statistics for quality_assessment | Data: feature_preservation_score=0.907466 hausdorff_distance=0.0146501 memory_usage_mb=0.00439072 mesh_quality_score=0.724476 planarity_rms=0.00667798 processing_time_ms=0 triangle_count=37 vertex_count=104 
+[2025-08-12 03:49:39.376] [INFO] [MEM] Memory usage at quality_assessment_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Timer full_pipeline completed | Data: duration_ms=61.441 
+[2025-08-12 03:49:39.376] [INFO] [VALID] Validating final results
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: final_vertex_count PASSED | Data: expected_max=1e+06 expected_min=4 valid=1 value=104 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: vertices
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: final_face_count PASSED | Data: expected_max=2e+06 expected_min=1 valid=1 value=37 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: faces
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: planarity_rms PASSED | Data: expected_max=0.02 expected_min=0 valid=1 value=0.00667798 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: hausdorff_distance PASSED | Data: expected_max=0.05 expected_min=0 valid=1 value=0.0146501 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: mesh_quality_score PASSED | Data: expected_max=1 expected_min=0.5 valid=1 value=0.724476 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: score
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: feature_preservation_score PASSED | Data: expected_max=1 expected_min=0.6 valid=1 value=0.907466 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: score
+[2025-08-12 03:49:39.376] [WARN] [VALID] Data validation: memory_usage_mb FAILED | Data: expected_max=1000 expected_min=0.1 valid=0 value=0.00439072 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: MB
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: processing_time_ms PASSED | Data: expected_max=300000 expected_min=1 valid=1 value=61.441 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: milliseconds
+[2025-08-12 03:49:39.376] [INFO] [VALID] Final validation completed
+[2025-08-12 03:49:39.376] [INFO] [GEN] === ENHANCED RECONSTRUCTION PIPELINE COMPLETED === | Data: final_faces=37 final_vertices=104 overall_quality_score=0.724476 total_time_ms=61.441 
+[2025-08-12 03:49:39.376] [INFO] [GEN] Enhanced Pipeline Test Completed | Data: final_quality_score=0.724476 output_file=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] === PERFORMANCE METRICS REPORT ===
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outlier_ratio | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outliers_removed | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: sampling_ratio | Data: average=0.968 count=1 maximum=0.968 minimum=0.968 total=0.968 
+[2025-08-12 03:49:39.376] [INFO] [PERF] === PERFORMANCE METRICS REPORT ===
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outlier_ratio | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outliers_removed | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: sampling_ratio | Data: average=0.968 count=1 maximum=0.968 minimum=0.968 total=0.968 

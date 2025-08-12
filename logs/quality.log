@@ -1,0 +1,1 @@
+[2025-08-12 03:49:39.376] [INFO] [QUAL] Quality assessment completed | Data: feature_preservation_score=0.907466 hausdorff_distance=0.0146501 memory_usage_mb=0.00439072 mesh_quality_score=0.724476 planarity_rms=0.00667798 processing_time_ms=0 triangle_count=37 vertex_count=104 

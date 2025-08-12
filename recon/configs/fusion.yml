@@ -1,0 +1,121 @@
+# 室内点云重建项目 - 融合和LOD配置文件
+# Stage 3: 融合与布尔运算
+# Stage 4: LOD生成与导出
+
+# 融合策略
+fusion:
+  # 优先级设置
+  shell_priority: true
+  detail_threshold: 0.005  # 5毫米阈值
+  
+  # 布尔运算
+  boolean_operation:
+    method: "union"  # union, difference
+    use_cgal: true
+    tolerance: 0.001  # 1毫米容差
+  
+  # Alpha包装（替代方案）
+  alpha_wrapping:
+    enable_fallback: true
+    offset: 0.002  # 2毫米偏移
+    post_align_planes: true
+
+# 焊接和清理
+welding:
+  # 顶点焊接
+  vertex_welding:
+    threshold: 0.002  # 2毫米阈值
+    preserve_boundaries: true
+  
+  # 法向量重估计
+  normal_recomputation:
+    enable: true
+    consistent_orientation: true
+
+# 颜色分配
+color_assignment:
+  # 外壳顶点颜色
+  shell_color:
+    method: "plane_sampling"
+    distance_weight: true
+    neighborhood_size: 0.05  # 5厘米邻域
+  
+  # 细节顶点颜色
+  detail_color:
+    method: "inherit_from_points"
+    fallback_to_interpolation: true
+  
+  # 连接处混合
+  blending:
+    enable: true
+    shell_weight: 0.7
+    detail_weight: 0.3
+    transition_distance: 0.01  # 1厘米过渡距离
+
+# LOD生成
+lod_generation:
+  # 目标三角形数量
+  target_counts:
+    full: 500000
+    lod1: 200000
+    lod2: 50000
+  
+  # 区域感知简化
+  region_aware:
+    enable: true
+    planar_reduction: 0.8    # 平面区域大幅简化
+    detail_reduction: 0.95   # 细节区域轻度简化
+  
+  # 简化参数
+  simplification:
+    method: "quadric_edge_collapse"
+    preserve_boundaries: true
+    preserve_sharp_edges: true
+    edge_angle_threshold: 45.0  # 度
+
+# 导出设置
+export:
+  # 支持格式
+  formats:
+    - "obj"
+    - "ply"
+    - "glb"
+  
+  # OBJ导出
+  obj:
+    include_normals: true
+    include_colors: true
+    include_textures: false
+  
+  # PLY导出
+  ply:
+    binary: true
+    include_normals: true
+    include_colors: true
+  
+  # GLB导出
+  glb:
+    include_vertex_colors: true
+    compression: true
+    
+# 质量验证
+final_validation:
+  # 几何检查
+  geometry:
+    manifold_check: true
+    watertight_check: true
+    self_intersection_check: true
+  
+  # 统计报告
+  statistics:
+    vertex_count: true
+    triangle_count: true
+    surface_area: true
+    volume: true
+    
+  # 可视化
+  visualization:
+    generate_preview: true
+    wireframe_overlay: false
+    color_coding: "normal"  # normal, curvature, quality
+

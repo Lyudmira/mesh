@@ -1,0 +1,36 @@
+# 图割优化器集成测试Makefile
+
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -I. -I/usr/include/pcl-1.12 -I/usr/include/eigen3
+LDFLAGS = -lpcl_common -lpcl_io -lpcl_filters -lpcl_features -lpcl_surface -lpcl_kdtree -lpcl_search -lopenvdb -ltbb
+
+# 目标文件
+TARGET = test_graph_cut_integration
+SOURCES = test_graph_cut_integration.cpp \
+          recon/src/graph_cut/graph_cut.cpp \
+          recon/src/graph_cut/pymaxflow_solver.cpp
+
+# 默认目标
+all: $(TARGET)
+
+# 编译目标
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SOURCES) $(LDFLAGS)
+
+# 运行测试
+test: $(TARGET)
+	./$(TARGET)
+
+# 清理
+clean:
+	rm -f $(TARGET)
+
+# 检查依赖
+check-deps:
+	@echo "检查依赖库..."
+	@pkg-config --exists pcl_common-1.12 && echo "✓ PCL found" || echo "✗ PCL not found"
+	@ldconfig -p | grep -q openvdb && echo "✓ OpenVDB found" || echo "✗ OpenVDB not found"
+	@ldconfig -p | grep -q tbb && echo "✓ TBB found" || echo "✗ TBB not found"
+
+.PHONY: all test clean check-deps
+

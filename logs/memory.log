@@ -1,0 +1,10 @@
+[2025-08-12 03:49:39.314] [INFO] [MEM] Memory usage at data_preprocessing_start | Data: memory_gb=0.00317383 memory_kb=3328 memory_mb=3.25 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at data_preprocessing_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at shell_reconstruction_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at shell_reconstruction_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at detail_reconstruction_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at detail_reconstruction_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.375] [INFO] [MEM] Memory usage at mesh_fusion_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.376] [INFO] [MEM] Memory usage at mesh_fusion_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.376] [INFO] [MEM] Memory usage at quality_assessment_start | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 
+[2025-08-12 03:49:39.376] [INFO] [MEM] Memory usage at quality_assessment_end | Data: memory_gb=0.00405121 memory_kb=4248 memory_mb=4.14844 

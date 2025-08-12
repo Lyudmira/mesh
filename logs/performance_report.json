@@ -1,0 +1,459 @@
+{
+  "report_info": {
+    "generated_at": "2025-08-12 10:24:02",
+    "total_metrics": 47
+  },
+  "aggregated_statistics": {
+    "algorithm_iteration_0_avg": 0.00904453,
+    "algorithm_iteration_0_count": 1,
+    "algorithm_iteration_0_sum": 0.00904453,
+    "algorithm_iteration_1_avg": 0.0809262,
+    "algorithm_iteration_1_count": 1,
+    "algorithm_iteration_1_sum": 0.0809262,
+    "algorithm_iteration_2_avg": 0.0128994,
+    "algorithm_iteration_2_count": 1,
+    "algorithm_iteration_2_sum": 0.0128994,
+    "algorithm_iteration_3_avg": 0.099348,
+    "algorithm_iteration_3_count": 1,
+    "algorithm_iteration_3_sum": 0.099348,
+    "algorithm_iteration_4_avg": 0.0983251,
+    "algorithm_iteration_4_count": 1,
+    "algorithm_iteration_4_sum": 0.0983251,
+    "algorithm_iteration_5_avg": 0.0866049,
+    "algorithm_iteration_5_count": 1,
+    "algorithm_iteration_5_sum": 0.0866049,
+    "algorithm_iteration_6_avg": 0.0496008,
+    "algorithm_iteration_6_count": 1,
+    "algorithm_iteration_6_sum": 0.0496008,
+    "algorithm_iteration_7_avg": 0.0780285,
+    "algorithm_iteration_7_count": 1,
+    "algorithm_iteration_7_sum": 0.0780285,
+    "algorithm_iteration_8_avg": 0.0825672,
+    "algorithm_iteration_8_count": 1,
+    "algorithm_iteration_8_sum": 0.0825672,
+    "algorithm_iteration_9_avg": 0.0299919,
+    "algorithm_iteration_9_count": 1,
+    "algorithm_iteration_9_sum": 0.0299919,
+    "cpu_usage_avg": 0.333229,
+    "cpu_usage_count": 3,
+    "cpu_usage_max": 0.999688,
+    "cpu_usage_min": 0,
+    "cpu_usage_sum": 0.999688,
+    "current_cpu_percent_avg": 45.2,
+    "current_cpu_percent_count": 1,
+    "current_cpu_percent_sum": 45.2,
+    "current_memory_mb_avg": 256.5,
+    "current_memory_mb_count": 1,
+    "current_memory_mb_sum": 256.5,
+    "iterations_completed_avg": 1,
+    "iterations_completed_count": 10,
+    "iterations_completed_max": 1,
+    "iterations_completed_min": 1,
+    "iterations_completed_sum": 10,
+    "memory_usage_avg": 6.35372e+06,
+    "memory_usage_count": 5,
+    "memory_usage_max": 8.0855e+06,
+    "memory_usage_min": 3.75603e+06,
+    "memory_usage_sum": 3.17686e+07,
+    "nested_operation_avg": 0.0501378,
+    "nested_operation_count": 1,
+    "nested_operation_sum": 0.0501378,
+    "points_per_second_avg": 50000,
+    "points_per_second_count": 1,
+    "points_per_second_sum": 50000,
+    "processed_points_avg": 1500,
+    "processed_points_count": 3,
+    "processed_points_max": 2000,
+    "processed_points_min": 1000,
+    "processed_points_sum": 4500,
+    "processing_rate_avg": 31411.2,
+    "processing_rate_count": 10,
+    "processing_rate_max": 112832,
+    "processing_rate_min": 10078.4,
+    "processing_rate_sum": 314112,
+    "test_operation_avg": 0.150301,
+    "test_operation_count": 1,
+    "test_operation_sum": 0.150301,
+    "triangles_per_second_avg": 25000,
+    "triangles_per_second_count": 1,
+    "triangles_per_second_sum": 25000
+  },
+  "detailed_metrics": [
+    {
+      "name": "memory_usage",
+      "type": "memory",
+      "value": 3.75603e+06,
+      "unit": "bytes",
+      "category": "memory",
+      "timestamp": "2025-08-12 10:24:00.211"
+    },
+    {
+      "name": "cpu_usage",
+      "type": "gauge",
+      "value": 0,
+      "unit": "percent",
+      "category": "system",
+      "timestamp": "2025-08-12 10:24:00.211"
+    },
+    {
+      "name": "nested_operation",
+      "type": "timer",
+      "value": 0.0501378,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "test_operation",
+      "type": "timer",
+      "value": 0.150301,
+      "unit": "seconds",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "processed_points",
+      "type": "counter",
+      "value": 1000,
+      "unit": "",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "processed_points",
+      "type": "counter",
+      "value": 2000,
+      "unit": "",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "processed_points",
+      "type": "counter",
+      "value": 1500,
+      "unit": "",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "current_memory_mb",
+      "type": "gauge",
+      "value": 256.5,
+      "unit": "",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "current_cpu_percent",
+      "type": "gauge",
+      "value": 45.2,
+      "unit": "",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "points_per_second",
+      "type": "rate",
+      "value": 50000,
+      "unit": "",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "triangles_per_second",
+      "type": "rate",
+      "value": 25000,
+      "unit": "",
+      "category": "",
+      "timestamp": "2025-08-12 10:24:00.361"
+    },
+    {
+      "name": "memory_usage",
+      "type": "memory",
+      "value": 3.75603e+06,
+      "unit": "bytes",
+      "category": "memory",
+      "timestamp": "2025-08-12 10:24:00.362"
+    },
+    {
+      "name": "memory_usage",
+      "type": "memory",
+      "value": 8.0855e+06,
+      "unit": "bytes",
+      "category": "memory",
+      "timestamp": "2025-08-12 10:24:00.365"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.374"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 112832,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.374"
+    },
+    {
+      "name": "algorithm_iteration_0",
+      "type": "timer",
+      "value": 0.00904453,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.374"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.455"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 12389.9,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.455"
+    },
+    {
+      "name": "algorithm_iteration_1",
+      "type": "timer",
+      "value": 0.0809262,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.455"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.468"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 78284.1,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.468"
+    },
+    {
+      "name": "algorithm_iteration_2",
+      "type": "timer",
+      "value": 0.0128994,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.468"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.567"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 10078.4,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.567"
+    },
+    {
+      "name": "algorithm_iteration_3",
+      "type": "timer",
+      "value": 0.099348,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.567"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.665"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 10189.5,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.665"
+    },
+    {
+      "name": "algorithm_iteration_4",
+      "type": "timer",
+      "value": 0.0983251,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.665"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.752"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 11576.6,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.752"
+    },
+    {
+      "name": "algorithm_iteration_5",
+      "type": "timer",
+      "value": 0.0866049,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.752"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.802"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 20206.1,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.802"
+    },
+    {
+      "name": "algorithm_iteration_6",
+      "type": "timer",
+      "value": 0.0496008,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.802"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.880"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 12837.4,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.880"
+    },
+    {
+      "name": "algorithm_iteration_7",
+      "type": "timer",
+      "value": 0.0780285,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.880"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.962"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 12131.2,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.962"
+    },
+    {
+      "name": "algorithm_iteration_8",
+      "type": "timer",
+      "value": 0.0825672,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.962"
+    },
+    {
+      "name": "iterations_completed",
+      "type": "counter",
+      "value": 1,
+      "unit": "count",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.992"
+    },
+    {
+      "name": "processing_rate",
+      "type": "rate",
+      "value": 33586.2,
+      "unit": "items/sec",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.992"
+    },
+    {
+      "name": "algorithm_iteration_9",
+      "type": "timer",
+      "value": 0.0299919,
+      "unit": "seconds",
+      "category": "algorithm",
+      "timestamp": "2025-08-12 10:24:00.992"
+    },
+    {
+      "name": "memory_usage",
+      "type": "memory",
+      "value": 8.0855e+06,
+      "unit": "bytes",
+      "category": "memory",
+      "timestamp": "2025-08-12 10:24:01.212"
+    },
+    {
+      "name": "cpu_usage",
+      "type": "gauge",
+      "value": 0.999688,
+      "unit": "percent",
+      "category": "system",
+      "timestamp": "2025-08-12 10:24:01.212"
+    },
+    {
+      "name": "memory_usage",
+      "type": "memory",
+      "value": 8.0855e+06,
+      "unit": "bytes",
+      "category": "memory",
+      "timestamp": "2025-08-12 10:24:02.212"
+    },
+    {
+      "name": "cpu_usage",
+      "type": "gauge",
+      "value": 0,
+      "unit": "percent",
+      "category": "system",
+      "timestamp": "2025-08-12 10:24:02.212"
+    }
+  ]
+}
