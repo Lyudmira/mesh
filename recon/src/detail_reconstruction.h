@@ -153,6 +153,7 @@ public:
 private:
     DetailReconstructionConfig config_;
     Statistics stats_;
+    float base_radius_ = 0.02f;
     
     /**
      * 从外壳网格提取偏移带内的点

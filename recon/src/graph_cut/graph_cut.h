@@ -64,6 +64,8 @@ struct VoxelNode {
     float confidence;               // 置信度
     bool is_planar;                 // 是否为平面区域
     float local_density;            // 局部密度
+    bool is_free_region = false;    // 是否可达自由空间
+    float visibility_cost = 0.0f;   // 可见性惩罚
     Label label = Label::FREE;      // 分配的标签
 };
 
@@ -140,7 +142,12 @@ private:
     
     std::vector<VoxelNode> nodes_;
     std::vector<GraphEdge> edges_;
-    std::unordered_map<openvdb::Coord, int> coord_to_node_;
+    std::unordered_map<openvdb::Coord, int, openvdb::Coord::Hash> coord_to_node_;
+    openvdb::math::Transform::Ptr transform_;
+    PointCloudT::Ptr cloud_;
+    pcl::KdTreeFLANN<PointT> kdtree_;
+    std::vector<openvdb::Coord> free_seeds_;
+    float max_density_ = 1.0f;
     
     /**
      * 构建图结构
@@ -219,6 +226,11 @@ private:
      * 计算两个坐标之间的距离
      */
     float computeDistance(const openvdb::Coord& coord1, const openvdb::Coord& coord2);
+
+    /**
+     * 自由空间泛洪
+     */
+    void floodFillFreeRegion(const std::vector<openvdb::Coord>& seeds);
 };
 
 /**
