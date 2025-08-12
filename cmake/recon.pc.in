@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: recon
+Description: 3D Reconstruction Library
+Version: @PROJECT_VERSION@
+Requires: 
+Libs: -L${libdir} -lrecon
+Cflags: -I${includedir}
