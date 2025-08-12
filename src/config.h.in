@@ -1,0 +1,34 @@
+/**
+ * 室内点云重建项目 - 配置头文件
+ * 由CMake自动生成
+ */
+
+#ifndef CONFIG_H
+#define CONFIG_H
+
+// 项目信息
+#define PROJECT_NAME "@PROJECT_NAME@"
+#define PROJECT_VERSION "@PROJECT_VERSION@"
+#define PROJECT_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define PROJECT_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define PROJECT_VERSION_PATCH @PROJECT_VERSION_PATCH@
+
+// 构建信息
+#define BUILD_TYPE "@CMAKE_BUILD_TYPE@"
+#define CXX_STANDARD @CMAKE_CXX_STANDARD@
+
+// 依赖库版本
+#cmakedefine OPENVDB_VERSION "@OpenVDB_VERSION@"
+#cmakedefine PCL_VERSION "@PCL_VERSION@"
+#cmakedefine CGAL_VERSION "@CGAL_VERSION@"
+#cmakedefine EIGEN3_VERSION "@EIGEN3_VERSION@"
+
+// 功能开关
+#cmakedefine BUILD_TESTS
+#cmakedefine BUILD_DOCS
+
+// 路径信息
+#define INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+
+#endif // CONFIG_H
+

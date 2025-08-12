@@ -158,7 +158,7 @@ set(RECON_SOURCES
     recon/src/utils/data_validator.h
     recon/src/utils/performance_monitor.h
     
-    # 图割优化
+    # 图割优化 (原有)
     recon/src/graph_cut/graph_cut.h
     recon/src/graph_cut/graph_cut.cpp
     recon/src/graph_cut/pymaxflow_solver.h
@@ -166,11 +166,25 @@ set(RECON_SOURCES
     recon/src/graph_cut/thread_safe_pymaxflow_solver.h
     recon/src/graph_cut/thread_safe_pymaxflow_solver.cpp
     
-    # UDF构建
+    # 图割优化 (新增)
+    recon/src/graph_cut/boykov_kolmogorov_solver.h
+    recon/src/graph_cut/boykov_kolmogorov_solver.cpp
+    recon/src/graph_cut/enhanced_graph_cut.h
+    recon/src/graph_cut/enhanced_graph_cut.cpp
+    
+    # UDF构建 (原有)
     recon/src/udf_builder/udf_builder.h
     recon/src/udf_builder/udf_builder.cpp
     recon/src/udf_builder/optimized_udf_builder.h
     recon/src/udf_builder/optimized_udf_builder.cpp
+    
+    # UDF构建 (新增)
+    recon/src/udf_builder/enhanced_udf_builder.h
+    recon/src/udf_builder/enhanced_udf_builder.cpp
+    
+    # 集成模块 (新增)
+    recon/src/integration/udf_graphcut_integrator.h
+    recon/src/integration/udf_graphcut_integrator.cpp
     
     # 双重轮廓
     recon/src/dual_contouring/dual_contouring.h
@@ -178,16 +192,37 @@ set(RECON_SOURCES
     recon/src/dual_contouring/enhanced_dual_contouring.h
     recon/src/dual_contouring/enhanced_dual_contouring.cpp
     
-    # 细节重建
+    # 细节重建 (原有)
     recon/src/detail_reconstruction.h
     recon/src/detail_reconstruction.cpp
     recon/src/enhanced_detail_reconstruction.h
     recon/src/enhanced_detail_reconstruction.cpp
     
-    # 网格融合
+    # 细节层重建 (新增)
+    recon/src/detail_layer/adaptive_detail_selector.h
+    recon/src/detail_layer/adaptive_detail_selector.cpp
+    recon/src/detail_layer/hybrid_reconstructor.h
+    recon/src/detail_layer/hybrid_reconstructor.cpp
+    recon/src/detail_layer/detail_reconstruction_integrator.h
+    recon/src/detail_layer/detail_reconstruction_integrator.cpp
+    
+    # 网格融合 (原有)
     recon/src/fusion/mesh_fusion.h
     recon/src/fusion/mesh_fusion.cpp
     recon/src/fusion/enhanced_mesh_fusion.h
+    recon/src/fusion/enhanced_mesh_fusion.cpp
+    
+    # 融合与合法化 (新增)
+    recon/src/fusion/alpha_wrapping_fusion.h
+    recon/src/fusion/alpha_wrapping_fusion.cpp
+    recon/src/fusion/legalization_processor.h
+    recon/src/fusion/legalization_processor.cpp
+    recon/src/fusion/fusion_legalization_integrator.h
+    recon/src/fusion/fusion_legalization_integrator.cpp
+    
+    # 主重建器 (新增)
+    recon/src/main_reconstructor.h
+    recon/src/main_reconstructor.cpp
     
     # 主管道
     recon/src/pipeline.h
@@ -270,12 +305,20 @@ set(TEST_PROGRAMS
     test_enhanced_dual_contouring_simple
     test_enhanced_detail_reconstruction_simple
     test_enhanced_mesh_fusion_simple
+    integration_test
 )
 
 foreach(test_prog ${TEST_PROGRAMS})
-    if(EXISTS ${CMAKE_SOURCE_DIR}/${test_prog}.cpp)
-        add_executable(${test_prog} ${test_prog}.cpp)
-        target_link_libraries(${test_prog} recon_lib)
+    if(test_prog STREQUAL "integration_test")
+        if(EXISTS ${CMAKE_SOURCE_DIR}/recon/tests/${test_prog}.cpp)
+            add_executable(${test_prog} recon/tests/${test_prog}.cpp)
+            target_link_libraries(${test_prog} recon_lib)
+        endif()
+    else()
+        if(EXISTS ${CMAKE_SOURCE_DIR}/${test_prog}.cpp)
+            add_executable(${test_prog} ${test_prog}.cpp)
+            target_link_libraries(${test_prog} recon_lib)
+        endif()
     endif()
 endforeach()
 

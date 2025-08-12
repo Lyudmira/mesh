@@ -1,0 +1,101 @@
+# 室内点云重建项目 - 外壳重建配置文件
+# Stage 1: 建筑外壳重建
+
+# 预处理参数
+preprocessing:
+  # 坐标统一
+  unit_scale: 1.0  # 假设输入已经是米单位
+  
+  # 粗糙裁剪
+  boundary_buffer: 0.1  # 10厘米缓冲区
+  
+  # 密度统计
+  knn_neighbors: 16  # 降低k值以适应小场景
+  
+  # 异常值去除
+  statistical_outlier:
+    mean_k: 16
+    stddev_thresh: 2.0
+  
+  radius_outlier:
+    radius_multiplier: 2.0
+    min_neighbors: 8
+  
+  # 法向量估计
+  normal_estimation:
+    k_neighbors: 32  # 降低k值
+    use_adaptive_radius: true
+    radius_multiplier: 2.5
+
+# UDF构建参数
+udf:
+  # 体素化设置
+  coarse_voxel_size: 0.03  # 3厘米粗体素
+  fine_voxel_size: 0.01    # 1厘米细体素
+  
+  # 细化条件
+  refinement:
+    curvature_threshold: 0.1
+    color_gradient_threshold: 0.2
+    plane_distance_threshold: 0.05  # 5厘米
+    density_threshold_multiplier: 2.0
+  
+  # 距离场参数
+  truncation_distance: 0.09  # 3倍体素大小
+  confidence_weights:
+    density_weight: 0.4
+    color_weight: 0.3
+    planarity_weight: 0.3
+
+# 图割优化参数
+graph_cut:
+  # 能量模型
+  data_term:
+    inside_cost_multiplier: 1.0
+    free_cost_base: 0.5
+    visibility_weight: 0.3
+  
+  # 平滑项
+  smoothness:
+    base_weight: 0.8
+    planar_multiplier: 2.0
+    cross_plane_multiplier: 0.5
+    density_adaptive: true
+  
+  # 区域自适应
+  region_adaptive:
+    planar_lambda: 1.0
+    detail_lambda: 0.5
+    planar_alpha: 0.7
+    detail_alpha: 0.5
+
+# 双重轮廓参数
+dual_contouring:
+  # QEF求解
+  qef_regularization: 0.1
+  anisotropic_weights:
+    normal_direction: 2.5
+    tangent_direction: 1.0
+  
+  # 表面提取
+  use_adaptive_normals: true
+  gradient_fallback: true
+
+# 合法化参数
+legalization:
+  # Alpha包装
+  alpha_wrapping:
+    offset: 0.002  # 2毫米偏移
+    detail_offset: 0.001  # 细节区域1毫米
+  
+  # 平面对齐
+  plane_alignment:
+    min_area: 0.1  # 0.1平方米最小面积
+    distance_threshold: 0.01  # 1厘米距离阈值
+    protect_features: true
+  
+  # 交线重投影
+  edge_projection:
+    enable: true
+    tolerance: 0.005  # 5毫米容差
+
