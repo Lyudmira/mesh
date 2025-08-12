@@ -158,47 +158,21 @@ set(RECON_SOURCES
     recon/src/utils/data_validator.h
     recon/src/utils/performance_monitor.h
     
-    # 图割优化 (原有)
-    recon/src/graph_cut/graph_cut.h
-    recon/src/graph_cut/graph_cut.cpp
-    recon/src/graph_cut/pymaxflow_solver.h
-    recon/src/graph_cut/pymaxflow_solver.cpp
-    recon/src/graph_cut/thread_safe_pymaxflow_solver.h
-    recon/src/graph_cut/thread_safe_pymaxflow_solver.cpp
-    
-    # 图割优化 (新增)
+    # 图割优化 (推荐使用)
     recon/src/graph_cut/boykov_kolmogorov_solver.h
     recon/src/graph_cut/boykov_kolmogorov_solver.cpp
-    recon/src/graph_cut/enhanced_graph_cut.h
-    recon/src/graph_cut/enhanced_graph_cut.cpp
+    recon/src/graph_cut/minimal_graph_cut.h
+    recon/src/graph_cut/minimal_graph_cut.cpp
     
-    # UDF构建 (原有)
-    recon/src/udf_builder/udf_builder.h
-    recon/src/udf_builder/udf_builder.cpp
-    recon/src/udf_builder/optimized_udf_builder.h
-    recon/src/udf_builder/optimized_udf_builder.cpp
-    
-    # UDF构建 (新增)
+    # UDF构建 (推荐使用)
     recon/src/udf_builder/enhanced_udf_builder.h
     recon/src/udf_builder/enhanced_udf_builder.cpp
     
-    # 集成模块 (新增)
+    # 集成模块
     recon/src/integration/udf_graphcut_integrator.h
     recon/src/integration/udf_graphcut_integrator.cpp
     
-    # 双重轮廓
-    recon/src/dual_contouring/dual_contouring.h
-    recon/src/dual_contouring/dual_contouring.cpp
-    recon/src/dual_contouring/enhanced_dual_contouring.h
-    recon/src/dual_contouring/enhanced_dual_contouring.cpp
-    
-    # 细节重建 (原有)
-    recon/src/detail_reconstruction.h
-    recon/src/detail_reconstruction.cpp
-    recon/src/enhanced_detail_reconstruction.h
-    recon/src/enhanced_detail_reconstruction.cpp
-    
-    # 细节层重建 (新增)
+    # 细节层重建 (推荐使用)
     recon/src/detail_layer/adaptive_detail_selector.h
     recon/src/detail_layer/adaptive_detail_selector.cpp
     recon/src/detail_layer/hybrid_reconstructor.h
@@ -206,13 +180,7 @@ set(RECON_SOURCES
     recon/src/detail_layer/detail_reconstruction_integrator.h
     recon/src/detail_layer/detail_reconstruction_integrator.cpp
     
-    # 网格融合 (原有)
-    recon/src/fusion/mesh_fusion.h
-    recon/src/fusion/mesh_fusion.cpp
-    recon/src/fusion/enhanced_mesh_fusion.h
-    recon/src/fusion/enhanced_mesh_fusion.cpp
-    
-    # 融合与合法化 (新增)
+    # 融合与合法化 (推荐使用)
     recon/src/fusion/alpha_wrapping_fusion.h
     recon/src/fusion/alpha_wrapping_fusion.cpp
     recon/src/fusion/legalization_processor.h
@@ -220,12 +188,39 @@ set(RECON_SOURCES
     recon/src/fusion/fusion_legalization_integrator.h
     recon/src/fusion/fusion_legalization_integrator.cpp
     
-    # 主重建器 (新增)
+    # 主重建器
     recon/src/main_reconstructor.h
     recon/src/main_reconstructor.cpp
     
-    # 主管道
-    recon/src/pipeline.h
+    # 统一接口
+    recon/src/unified_interface.h
+    recon/src/unified_interface.cpp
+    
+    # 兼容性模块 (不推荐，但保留)
+    recon/src/graph_cut/graph_cut.h
+    recon/src/graph_cut/graph_cut.cpp
+    recon/src/graph_cut/pymaxflow_solver.h
+    recon/src/graph_cut/pymaxflow_solver.cpp
+    recon/src/graph_cut/thread_safe_pymaxflow_solver.h
+    recon/src/graph_cut/thread_safe_pymaxflow_solver.cpp
+    recon/src/udf_builder/udf_builder.h
+    recon/src/udf_builder/udf_builder.cpp
+    recon/src/udf_builder/optimized_udf_builder.h
+    recon/src/udf_builder/optimized_udf_builder.cpp
+    recon/src/detail_reconstruction.h
+    recon/src/detail_reconstruction.cpp
+    recon/src/enhanced_detail_reconstruction.h
+    recon/src/enhanced_detail_reconstruction.cpp
+    recon/src/fusion/mesh_fusion.h
+    recon/src/fusion/mesh_fusion.cpp
+    recon/src/fusion/enhanced_mesh_fusion.h
+    recon/src/fusion/enhanced_mesh_fusion.cpp
+    
+    # 双重轮廓
+    recon/src/dual_contouring/dual_contouring.h
+    recon/src/dual_contouring/dual_contouring.cpp
+    recon/src/dual_contouring/enhanced_dual_contouring.h
+    recon/src/dual_contouring/enhanced_dual_contouring.cpp
     recon/src/pipeline.cpp
 )
 
@@ -244,8 +239,10 @@ add_library(recon_lib STATIC ${EXISTING_SOURCES})
 
 # 设置库的包含目录
 target_include_directories(recon_lib PUBLIC
-    ${CMAKE_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/recon/src
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/recon/src>
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/external/maxflow>
+    $<INSTALL_INTERFACE:include>
 )
 
 # 链接依赖库
@@ -306,12 +303,18 @@ set(TEST_PROGRAMS
     test_enhanced_detail_reconstruction_simple
     test_enhanced_mesh_fusion_simple
     integration_test
+    minimal_test
 )
 
 foreach(test_prog ${TEST_PROGRAMS})
     if(test_prog STREQUAL "integration_test")
         if(EXISTS ${CMAKE_SOURCE_DIR}/recon/tests/${test_prog}.cpp)
             add_executable(${test_prog} recon/tests/${test_prog}.cpp)
+            target_link_libraries(${test_prog} recon_lib)
+        endif()
+    elseif(test_prog STREQUAL "minimal_test")
+        if(EXISTS ${CMAKE_SOURCE_DIR}/examples/${test_prog}.cpp)
+            add_executable(${test_prog} examples/${test_prog}.cpp)
             target_link_libraries(${test_prog} recon_lib)
         endif()
     else()
@@ -334,11 +337,16 @@ if(BUILD_PYTHON_MODULE)
     endif()
 endif()
 
-# 安装规则
+# 包含必要的CMake模块
+include(CMakePackageConfigHelpers)
+
+# 安装目标
 install(TARGETS recon_lib
-    ARCHIVE DESTINATION lib
+    EXPORT ReconTargets
     LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
 )
 
 # 安装头文件
@@ -347,23 +355,18 @@ install(DIRECTORY recon/src/
     FILES_MATCHING PATTERN "*.h"
 )
 
+## 导出目标
+install(EXPORT ReconTargets
+    FILE ReconTargets.cmake
+    NAMESPACE recon::
+    DESTINATION lib/cmake/recon
+)
+
 # 安装配置文件
-install(FILES config/default.yml
-    DESTINATION share/recon/config
-)
-
-# 安装脚本
-install(PROGRAMS scripts/install_dependencies.sh
-    DESTINATION share/recon/scripts
-)
-
-# 创建配置文件
-include(CMakePackageConfigHelpers)
-
 configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/ReconConfig.cmake.in"
+    cmake/ReconConfig.cmake.in
     "${CMAKE_CURRENT_BINARY_DIR}/ReconConfig.cmake"
-    INSTALL_DESTINATION lib/cmake/Recon
+    INSTALL_DESTINATION lib/cmake/recon
 )
 
 write_basic_package_version_file(
@@ -375,14 +378,19 @@ write_basic_package_version_file(
 install(FILES
     "${CMAKE_CURRENT_BINARY_DIR}/ReconConfig.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}/ReconConfigVersion.cmake"
-    DESTINATION lib/cmake/Recon
+    DESTINATION lib/cmake/recon
 )
 
-# 导出目标
-install(EXPORT ReconTargets
-    FILE ReconTargets.cmake
-    NAMESPACE Recon::
-    DESTINATION lib/cmake/Recon
+# 安装pkg-config文件
+configure_file(
+    cmake/recon.pc.in
+    "${CMAKE_CURRENT_BINARY_DIR}/recon.pc"
+    @ONLY
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/recon.pc"
+    DESTINATION lib/pkgconfig
 )
 
 export(EXPORT ReconTargets

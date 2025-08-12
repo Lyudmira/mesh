@@ -443,6 +443,10 @@ public:
     static std::unique_ptr<EnhancedGraphCutSolver> create(
         SolverVariant variant,
         const GraphCutConfig& config = GraphCutConfig{});
+    
+    static std::unique_ptr<EnhancedGraphCutSolver> createStandard();
+    static std::unique_ptr<EnhancedGraphCutSolver> createHighQuality();
+    static std::unique_ptr<EnhancedGraphCutSolver> createFast();
 };
 
 /**

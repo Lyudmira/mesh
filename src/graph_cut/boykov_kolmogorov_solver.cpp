@@ -3,7 +3,7 @@
  */
 
 #include "boykov_kolmogorov_solver.h"
-#include <maxflow/maxflow.h>
+#include "../../../external/maxflow/maxflow/graph.h"
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>

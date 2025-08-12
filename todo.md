@@ -142,24 +142,52 @@
 - [x] 实现质量验证和迭代改进机制
 
 
-## 阶段6：系统集成测试与文档更新 ✅
-- [x] 创建MainReconstructor主重建器
-- [x] 实现完整的重建流程集成
-- [x] 创建ReconstructorManager任务管理器
-- [x] 实现渐进式重建和迭代质量改进
-- [x] 创建完整的集成测试套件
-- [x] 实现性能基准测试和错误处理测试
-- [x] 更新CMakeLists.txt构建配置
-- [x] 创建AGENTS_UPDATED.md完整文档
-- [x] 实现工厂模式和多种预配置
-- [x] 支持质量评估和报告生成
+## 阶段1：实现核心缺失模块 ✅
+- [x] 简化legalization_processor.cpp实现
+  - [x] 实现基础的约束违反检测
+  - [x] 实现几何约束修复（移除退化面片）
+  - [x] 实现拓扑约束修复（流形性、孔洞填充、小分量移除）
+  - [x] 实现基础质量优化（拉普拉斯平滑）
+  - [x] 简化约束类型，专注核心功能
+- [x] 完成fusion_legalization_integrator.cpp实现
+  - [x] 实现8阶段融合工作流
+  - [x] 实现Alpha包装融合逻辑
+  - [x] 实现平面对齐和交线重投影
+  - [x] 实现细节融合和质量验证
+  - [x] 集成合法化处理器调用
+- [x] 完成main_reconstructor.cpp核心调度逻辑
+  - [x] 实现完整的6阶段重建流程
+  - [x] 实现各子模块的协调调用
+  - [x] 实现错误处理和状态管理
+  - [x] 实现质量评估和迭代改进
+  - [x] 实现渐进式重建和收敛检测
+- [x] 创建simple_reconstruction_example.cpp示例
+  - [x] 演示基础使用方法
+  - [x] 支持文件输入和测试数据生成
+  - [x] 包含完整的错误处理和结果保存
 
-## 项目完成总结 ✅
-所有四个核心模块均已完成实现和集成：
-1. ✅ 图割能量与求解器完善 - 真正的BK算法、自适应权重、可见性惩罚
-2. ✅ UDF与图割集成实现 - 体素属性映射、自适应权重调整、几何特征计算
-3. ✅ 细节层重建集成开发 - 混合重建器、自适应选择、质量反馈细化
-4. ✅ 融合与合法化模块实现 - Alpha包装、平面对齐、交线重投影、合法化处理
 
-系统现已具备完整的3D重建能力，符合AGENTS.md文档的所有要求。
+## 阶段2：简化和清理重复模块 ✅
+- [x] 识别重复模块版本
+  - [x] UDF构建器：udf_builder, optimized_udf_builder, enhanced_udf_builder
+  - [x] 图割：graph_cut, simple_graph_cut, enhanced_graph_cut
+  - [x] 细节重建：detail_reconstruction, enhanced_detail_reconstruction, detail_layer
+  - [x] 融合：mesh_fusion, enhanced_mesh_fusion, fusion_legalization_integrator
+- [x] 清理过时文件
+  - [x] 移除所有.backup文件
+  - [x] 移除simple_graph_cut模块
+  - [x] 移除enhanced_graph_cut_v2.cpp
+- [x] 创建统一接口
+  - [x] 创建unified_interface.h/cpp
+  - [x] 定义推荐使用的模块别名
+  - [x] 实现SimpleReconstructor简化接口
+  - [x] 实现UnifiedReconstructorFactory工厂
+- [x] 创建弃用说明文档
+  - [x] 列出所有弃用模块和替代方案
+  - [x] 提供迁移指南和示例代码
+  - [x] 制定清理计划
+- [x] 更新构建配置
+  - [x] 重新组织CMakeLists.txt中的源文件列表
+  - [x] 区分推荐模块和兼容性模块
+  - [x] 添加统一接口到构建列表
 
