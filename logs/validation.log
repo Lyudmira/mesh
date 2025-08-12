@@ -1,0 +1,33 @@
+[2025-08-12 03:49:39.314] [INFO] [VALID] Bounding box computed | Data: max_x=4.9966 max_y=4.99033 max_z=1.49998 min_x=-4.99589 min_y=-4.98674 min_z=-1.49878 size_x=9.9925 size_y=9.97707 size_z=2.99876 
+[2025-08-12 03:49:39.375] [INFO] [VALID] Validating preprocessing results
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: point_count PASSED | Data: expected_max=1e+07 expected_min=100 valid=1 value=968 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: points
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: bounding_box_x PASSED | Data: expected_max=100 expected_min=0.1 valid=1 value=9.9925 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: bounding_box_y PASSED | Data: expected_max=100 expected_min=0.1 valid=1 value=9.97707 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: bounding_box_z PASSED | Data: expected_max=20 expected_min=0.1 valid=1 value=2.99876 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.375] [WARN] [VALID] Data validation: point_density FAILED | Data: expected_max=100000 expected_min=10 valid=0 value=3.23784 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: points/m³
+[2025-08-12 03:49:39.375] [INFO] [VALID] Data validation: normal_validity_ratio PASSED | Data: expected_max=1 expected_min=0.8 valid=1 value=1 
+[2025-08-12 03:49:39.375] [DEBUG] [VALID] Unit: ratio
+[2025-08-12 03:49:39.375] [INFO] [VALID] Preprocessing validation completed | Data: normal_validity_ratio=1 valid_normals=968 
+[2025-08-12 03:49:39.376] [INFO] [VALID] Validating final results
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: final_vertex_count PASSED | Data: expected_max=1e+06 expected_min=4 valid=1 value=104 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: vertices
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: final_face_count PASSED | Data: expected_max=2e+06 expected_min=1 valid=1 value=37 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: faces
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: planarity_rms PASSED | Data: expected_max=0.02 expected_min=0 valid=1 value=0.00667798 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: hausdorff_distance PASSED | Data: expected_max=0.05 expected_min=0 valid=1 value=0.0146501 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: meters
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: mesh_quality_score PASSED | Data: expected_max=1 expected_min=0.5 valid=1 value=0.724476 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: score
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: feature_preservation_score PASSED | Data: expected_max=1 expected_min=0.6 valid=1 value=0.907466 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: score
+[2025-08-12 03:49:39.376] [WARN] [VALID] Data validation: memory_usage_mb FAILED | Data: expected_max=1000 expected_min=0.1 valid=0 value=0.00439072 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: MB
+[2025-08-12 03:49:39.376] [INFO] [VALID] Data validation: processing_time_ms PASSED | Data: expected_max=300000 expected_min=1 valid=1 value=61.441 
+[2025-08-12 03:49:39.376] [DEBUG] [VALID] Unit: milliseconds
+[2025-08-12 03:49:39.376] [INFO] [VALID] Final validation completed

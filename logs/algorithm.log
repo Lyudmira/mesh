@@ -1,0 +1,12 @@
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Normalizing coordinates | Data: unit_scale=1 
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Removing outliers | Data: std_threshold=2.5 
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Outlier removal completed | Data: distance_mean=3.96426 distance_std=1.36885 original_points=1000 remaining_points=1000 removal_ratio=0 removed_points=0 threshold=7.38638 
+[2025-08-12 03:49:39.314] [INFO] [ALGO] Estimating normals | Data: k_neighbors=32 
+[2025-08-12 03:49:39.372] [INFO] [ALGO] Normal estimation completed
+[2025-08-12 03:49:39.372] [INFO] [ALGO] Applying denoising | Data: radius=0.2 
+[2025-08-12 03:49:39.374] [INFO] [ALGO] Denoising completed
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Applying density balancing | Data: voxel_size=0.1 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Density balancing completed | Data: original_points=1000 sampled_points=968 sampling_ratio=0.968 voxels_used=968 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Shell reconstruction completed | Data: shell_faces=4 shell_vertices=4 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Detail reconstruction completed | Data: detail_faces=33 detail_vertices=100 
+[2025-08-12 03:49:39.375] [INFO] [ALGO] Mesh fusion completed | Data: detail_contribution=0.961538 fused_faces=37 fused_vertices=104 shell_contribution=0.0384615 

@@ -1,0 +1,222 @@
+# 室内点云重建系统 - 默认配置文件
+# Indoor Point Cloud Reconstruction System - Default Configuration
+
+# 系统配置
+system:
+  # 日志配置
+  logging:
+    level: "INFO"  # DEBUG, INFO, WARN, ERROR, FATAL
+    output_dir: "logs"
+    max_file_size_mb: 100
+    max_files: 10
+    enable_console: true
+    enable_json: true
+    modules:
+      GraphCut: "DEBUG"
+      UDFBuilder: "INFO"
+      DualContouring: "INFO"
+      DetailReconstruction: "INFO"
+      MeshFusion: "INFO"
+      
+  # 性能监控配置
+  performance:
+    enable_monitoring: true
+    monitoring_interval_sec: 1
+    enable_memory_tracking: true
+    enable_cpu_tracking: true
+    report_format: ["txt", "json"]
+    
+  # 并行处理配置
+  parallel:
+    num_threads: 0  # 0 = 自动检测CPU核心数
+    enable_openmp: true
+    chunk_size: 1000
+
+# 数据处理配置
+data:
+  # 输入数据配置
+  input:
+    supported_formats: ["ply", "pcd", "xyz", "obj"]
+    max_points: 10000000  # 最大支持点数
+    min_points: 100       # 最小需要点数
+    
+  # 数据验证配置
+  validation:
+    enable_input_validation: true
+    enable_output_validation: true
+    quality_threshold: 0.5  # 最低质量阈值
+    strict_mode: false      # 严格模式
+    
+  # 预处理配置
+  preprocessing:
+    enable_outlier_removal: true
+    outlier_threshold: 2.0
+    enable_downsampling: false
+    downsample_voxel_size: 0.01
+    enable_normal_estimation: true
+    normal_search_radius: 0.05
+
+# 算法配置
+algorithms:
+  # 图割优化配置
+  graph_cut:
+    solver_type: "pymaxflow"  # pymaxflow, simple
+    communication_method: "file"  # file, process, memory
+    temp_dir: "/tmp/graph_cut"
+    timeout_sec: 300
+    max_iterations: 100
+    convergence_threshold: 1e-6
+    
+  # UDF构建配置
+  udf_builder:
+    grid_resolution: 256
+    bandwidth: 0.1
+    enable_adaptive_refinement: true
+    refinement_levels: 3
+    curvature_threshold: 0.1
+    feature_threshold: 0.05
+    enable_parallel_processing: true
+    
+  # 双重轮廓配置
+  dual_contouring:
+    enable_qef_solver: true
+    qef_solver_type: "svd"  # svd, normal_equations
+    feature_detection_threshold: 0.1
+    enable_feature_preservation: true
+    enable_anisotropic_scaling: true
+    normal_weight_factor: 3.0
+    gradient_scales: [1.0, 2.0, 4.0]
+    
+  # 细节重建配置
+  detail_reconstruction:
+    method: "adaptive"  # rimls, gp3, poisson, adaptive
+    rimls:
+      polynomial_degree: 2
+      bandwidth_factor: 1.5
+      max_iterations: 10
+      convergence_threshold: 1e-4
+    gp3:
+      search_radius: 0.1
+      mu: 2.5
+      maximum_nearest_neighbors: 100
+    poisson:
+      depth: 8
+      width: 0
+      scale: 1.1
+      samples_per_node: 3.0
+      
+  # 网格融合配置
+  mesh_fusion:
+    method: "adaptive"  # fast_igl, robust_cgal, alpha_wrapping, adaptive
+    welding:
+      strategy: "adaptive"  # distance, normal, feature, topology, adaptive
+      distance_threshold: 1e-3
+      normal_threshold: 0.9
+      enable_boundary_protection: true
+    color_fusion:
+      method: "feature_aware"  # shell_priority, detail_priority, distance_weighted, adaptive
+      blend_distance: 0.02
+      enable_smooth_transition: true
+
+# 质量控制配置
+quality:
+  # 网格质量标准
+  mesh_quality:
+    min_triangle_area: 1e-6
+    max_aspect_ratio: 10.0
+    min_dihedral_angle: 10.0  # 度
+    max_dihedral_angle: 170.0 # 度
+    
+  # 几何精度标准
+  geometric_accuracy:
+    max_hausdorff_distance: 0.01  # 米
+    max_rms_error: 0.005          # 米
+    min_feature_preservation: 0.9  # 90%
+    
+  # 拓扑质量标准
+  topology_quality:
+    allow_boundary_edges: true
+    max_boundary_edge_ratio: 0.1
+    allow_non_manifold: false
+    max_genus: 0  # 0 = 无限制
+
+# 输出配置
+output:
+  # 文件格式配置
+  formats:
+    mesh: ["obj", "ply", "stl"]
+    point_cloud: ["ply", "pcd"]
+    metadata: ["json", "yaml"]
+    
+  # 输出质量配置
+  quality:
+    vertex_precision: 6  # 小数位数
+    normal_precision: 4
+    color_precision: 3
+    
+  # 报告配置
+  reports:
+    enable_quality_report: true
+    enable_performance_report: true
+    enable_validation_report: true
+    report_format: ["txt", "json", "html"]
+
+# 内存管理配置
+memory:
+  # 内存限制
+  max_memory_gb: 32
+  enable_memory_monitoring: true
+  memory_warning_threshold: 0.8  # 80%
+  
+  # 缓存配置
+  cache:
+    enable_feature_cache: true
+    cache_size_mb: 1024
+    enable_lru_eviction: true
+    
+  # 大数据处理
+  large_data:
+    enable_streaming: true
+    chunk_size_mb: 256
+    overlap_ratio: 0.1
+
+# 调试和开发配置
+debug:
+  # 调试输出
+  enable_debug_output: false
+  debug_output_dir: "debug"
+  save_intermediate_results: false
+  
+  # 可视化配置
+  visualization:
+    enable_mesh_preview: false
+    preview_resolution: 512
+    enable_progress_display: true
+    
+  # 基准测试
+  benchmarking:
+    enable_benchmarks: false
+    benchmark_iterations: 5
+    save_benchmark_results: true
+
+# 环境配置
+environment:
+  # 依赖库路径
+  dependencies:
+    opencv_dir: ""
+    cgal_dir: ""
+    openvdb_dir: ""
+    libigl_dir: ""
+    
+  # 临时文件配置
+  temp:
+    temp_dir: "/tmp/mesh_reconstruction"
+    cleanup_on_exit: true
+    max_temp_size_gb: 10
+    
+  # GPU配置（未来扩展）
+  gpu:
+    enable_gpu: false
+    device_id: 0
+    memory_fraction: 0.8
+

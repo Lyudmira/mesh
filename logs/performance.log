@@ -1,0 +1,22 @@
+[2025-08-12 03:49:39.314] [INFO] [PERF] Timer coordinate_normalization completed | Data: duration_ms=0.035 
+[2025-08-12 03:49:39.314] [INFO] [PERF] Timer outlier_removal completed | Data: duration_ms=0.032 
+[2025-08-12 03:49:39.314] [DEBUG] [PERF] Metric recorded: outliers_removed | Data: value=0 
+[2025-08-12 03:49:39.314] [DEBUG] [PERF] Metric recorded: outlier_ratio | Data: value=0 
+[2025-08-12 03:49:39.372] [INFO] [PERF] Timer normal_estimation completed | Data: duration_ms=57.746 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer denoising completed | Data: duration_ms=2.302 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer density_balancing completed | Data: duration_ms=0.334 
+[2025-08-12 03:49:39.375] [DEBUG] [PERF] Metric recorded: sampling_ratio | Data: value=0.968 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer data_preprocessing completed | Data: duration_ms=60.762 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer shell_reconstruction completed | Data: duration_ms=0.051 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer detail_reconstruction completed | Data: duration_ms=0.036 
+[2025-08-12 03:49:39.375] [INFO] [PERF] Timer mesh_fusion completed | Data: duration_ms=0.037 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Timer quality_assessment completed | Data: duration_ms=0.056 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Timer full_pipeline completed | Data: duration_ms=61.441 
+[2025-08-12 03:49:39.376] [INFO] [PERF] === PERFORMANCE METRICS REPORT ===
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outlier_ratio | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outliers_removed | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: sampling_ratio | Data: average=0.968 count=1 maximum=0.968 minimum=0.968 total=0.968 
+[2025-08-12 03:49:39.376] [INFO] [PERF] === PERFORMANCE METRICS REPORT ===
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outlier_ratio | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: outliers_removed | Data: average=0 count=1 maximum=0 minimum=0 total=0 
+[2025-08-12 03:49:39.376] [INFO] [PERF] Metric: sampling_ratio | Data: average=0.968 count=1 maximum=0.968 minimum=0.968 total=0.968 

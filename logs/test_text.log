@@ -1,0 +1,108 @@
+2025-08-12 10:24:00.156 [DEBUG] [TestModule] [T:139673320220480] 这是一条调试信息 (testLoggingSystem at test_enhanced_logging_system.cpp:34)
+2025-08-12 10:24:00.156 [INFO ] [TestModule] [T:139673320220480] 这是一条信息
+2025-08-12 10:24:00.156 [WARN ] [TestModule] [T:139673320220480] 这是一条警告
+2025-08-12 10:24:00.156 [ERROR] [TestModule] [T:139673320220480] 这是一条错误
+2025-08-12 10:24:00.156 [FATAL] [TestModule] [T:139673320220480] 这是一条致命错误
+2025-08-12 10:24:00.156 [INFO ] [TestModule] [T:139673320220480] 开始网格重建操作 {input_size=50000, operation=mesh_reconstruction, user_id=12345}
+2025-08-12 10:24:00.156 [ERROR] [QuietModule] [T:139673320220480] 只有这条错误会显示
+2025-08-12 10:24:00.156 [INFO ] [Thread0] [T:139673305343552] 线程 0 消息 0
+2025-08-12 10:24:00.156 [INFO ] [Thread1] [T:139673296950848] 线程 1 消息 0
+2025-08-12 10:24:00.156 [INFO ] [Thread2] [T:139673288558144] 线程 2 消息 0
+2025-08-12 10:24:00.166 [INFO ] [Thread0] [T:139673305343552] 线程 0 消息 1
+2025-08-12 10:24:00.166 [INFO ] [Thread1] [T:139673296950848] 线程 1 消息 1
+2025-08-12 10:24:00.166 [INFO ] [Thread2] [T:139673288558144] 线程 2 消息 1
+2025-08-12 10:24:00.176 [INFO ] [Thread0] [T:139673305343552] 线程 0 消息 2
+2025-08-12 10:24:00.176 [INFO ] [Thread2] [T:139673288558144] 线程 2 消息 2
+2025-08-12 10:24:00.176 [INFO ] [Thread1] [T:139673296950848] 线程 1 消息 2
+2025-08-12 10:24:00.186 [INFO ] [Thread0] [T:139673305343552] 线程 0 消息 3
+2025-08-12 10:24:00.186 [INFO ] [Thread2] [T:139673288558144] 线程 2 消息 3
+2025-08-12 10:24:00.186 [INFO ] [Thread1] [T:139673296950848] 线程 1 消息 3
+2025-08-12 10:24:00.196 [INFO ] [Thread0] [T:139673305343552] 线程 0 消息 4
+2025-08-12 10:24:00.196 [INFO ] [Thread2] [T:139673288558144] 线程 2 消息 4
+2025-08-12 10:24:00.197 [INFO ] [Thread1] [T:139673296950848] 线程 1 消息 4
+2025-08-12 10:24:00.207 [INFO ] [PointCloudValidator] [T:139673320220480] 开始验证点云数据，点数: 1003
+2025-08-12 10:24:00.207 [DEBUG] [PointCloudValidator] [T:139673320220480] 基础属性检查完成 (validateBasicProperties at recon/src/utils/data_validator.h:174)
+2025-08-12 10:24:00.207 [DEBUG] [PointCloudValidator] [T:139673320220480] 几何检查完成 (validateGeometry at recon/src/utils/data_validator.h:235)
+2025-08-12 10:24:00.207 [DEBUG] [PointCloudValidator] [T:139673320220480] 颜色检查完成 (validateColors at recon/src/utils/data_validator.h:284)
+2025-08-12 10:24:00.207 [DEBUG] [PointCloudValidator] [T:139673320220480] 法向量检查完成 (validateNormals at recon/src/utils/data_validator.h:328)
+2025-08-12 10:24:00.210 [DEBUG] [PointCloudValidator] [T:139673320220480] 密度分析完成 (analyzeDensity at recon/src/utils/data_validator.h:386)
+2025-08-12 10:24:00.211 [DEBUG] [PointCloudValidator] [T:139673320220480] 噪声检测完成 (detectNoise at recon/src/utils/data_validator.h:486)
+2025-08-12 10:24:00.211 [INFO ] [PointCloudValidator] [T:139673320220480] 点云验证完成，总体评分: 0.700000
+2025-08-12 10:24:00.211 [INFO ] [MeshValidator] [T:139673320220480] 开始验证网格数据，顶点数: 4, 面数: 3
+2025-08-12 10:24:00.211 [DEBUG] [MeshValidator] [T:139673320220480] 基础属性检查完成 (validateBasicProperties at recon/src/utils/data_validator.h:630)
+2025-08-12 10:24:00.211 [DEBUG] [MeshValidator] [T:139673320220480] 拓扑检查完成 (validateTopology at recon/src/utils/data_validator.h:676)
+2025-08-12 10:24:00.211 [DEBUG] [MeshValidator] [T:139673320220480] 几何检查完成 (validateGeometry at recon/src/utils/data_validator.h:726)
+2025-08-12 10:24:00.211 [DEBUG] [MeshValidator] [T:139673320220480] 质量检查完成 (validateQuality at recon/src/utils/data_validator.h:778)
+2025-08-12 10:24:00.211 [INFO ] [MeshValidator] [T:139673320220480] 网格验证完成，总体评分: 0.300000
+2025-08-12 10:24:00.211 [INFO ] [PerformanceMonitor] [T:139673320220480] Started real-time monitoring
+2025-08-12 10:24:00.211 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: test_operation (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.211 [DEBUG] [MemoryMonitor] [T:139673288558144] Memory usage at monitoring_loop: 3 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:00.311 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: nested_operation (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.361 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: nested_operation, duration: 0.050138s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.361 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: test_operation, duration: 0.150301s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.362 [DEBUG] [MemoryMonitor] [T:139673320220480] Memory usage at test_start: 3 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:00.365 [DEBUG] [MemoryMonitor] [T:139673320220480] Memory usage at after_allocation: 7 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:00.365 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_0 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.374 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_0, duration: 0.009045s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.374 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_1 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.455 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_1, duration: 0.080926s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.455 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_2 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.468 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_2, duration: 0.012899s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.468 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_3 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.567 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_3, duration: 0.099348s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.567 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_4 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.665 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_4, duration: 0.098325s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.665 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_5 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.752 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_5, duration: 0.086605s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.752 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_6 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.802 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_6, duration: 0.049601s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.802 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_7 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.880 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_7, duration: 0.078029s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.880 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_8 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.962 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_8, duration: 0.082567s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:00.962 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: algorithm_iteration_9 (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:00.992 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: algorithm_iteration_9, duration: 0.029992s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:01.212 [DEBUG] [MemoryMonitor] [T:139673288558144] Memory usage at monitoring_loop: 7 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:02.212 [DEBUG] [MemoryMonitor] [T:139673288558144] Memory usage at monitoring_loop: 7 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:02.993 [INFO ] [PerformanceMonitor] [T:139673320220480] Performance report generated: logs/performance_report.txt
+2025-08-12 10:24:02.993 [INFO ] [PerformanceMonitor] [T:139673320220480] JSON performance report generated: logs/performance_report.json
+2025-08-12 10:24:02.993 [INFO ] [PerformanceMonitor] [T:139673320220480] Stopped real-time monitoring
+2025-08-12 10:24:02.994 [INFO ] [IntegratedTest] [T:139673320220480] 开始集成系统测试
+2025-08-12 10:24:02.994 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: integrated_reconstruction (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:02.994 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: data_loading (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:02.994 [INFO ] [IntegratedTest] [T:139673320220480] 加载点云数据
+2025-08-12 10:24:02.994 [DEBUG] [MemoryMonitor] [T:139673320220480] Memory usage at after_data_loading: 4 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:02.994 [INFO ] [PointCloudValidator] [T:139673320220480] 开始验证点云数据，点数: 5000
+2025-08-12 10:24:02.994 [DEBUG] [PointCloudValidator] [T:139673320220480] 基础属性检查完成 (validateBasicProperties at recon/src/utils/data_validator.h:174)
+2025-08-12 10:24:02.995 [DEBUG] [PointCloudValidator] [T:139673320220480] 几何检查完成 (validateGeometry at recon/src/utils/data_validator.h:235)
+2025-08-12 10:24:02.996 [DEBUG] [PointCloudValidator] [T:139673320220480] 颜色检查完成 (validateColors at recon/src/utils/data_validator.h:284)
+2025-08-12 10:24:02.996 [DEBUG] [PointCloudValidator] [T:139673320220480] 法向量检查完成 (validateNormals at recon/src/utils/data_validator.h:328)
+2025-08-12 10:24:03.007 [DEBUG] [PointCloudValidator] [T:139673320220480] 密度分析完成 (analyzeDensity at recon/src/utils/data_validator.h:386)
+2025-08-12 10:24:03.014 [DEBUG] [PointCloudValidator] [T:139673320220480] 噪声检测完成 (detectNoise at recon/src/utils/data_validator.h:486)
+2025-08-12 10:24:03.014 [INFO ] [PointCloudValidator] [T:139673320220480] 点云验证完成，总体评分: 0.700000
+2025-08-12 10:24:03.014 [INFO ] [IntegratedTest] [T:139673320220480] 数据验证完成，评分: 0.700000
+2025-08-12 10:24:03.014 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: data_loading, duration: 0.020438s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:03.014 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: preprocessing (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:03.014 [INFO ] [IntegratedTest] [T:139673320220480] 执行数据预处理
+2025-08-12 10:24:03.064 [DEBUG] [MemoryMonitor] [T:139673320220480] Memory usage at after_preprocessing: 4 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:03.064 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: preprocessing, duration: 0.050291s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:03.064 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: mesh_reconstruction (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:03.064 [INFO ] [IntegratedTest] [T:139673320220480] 执行网格重建
+2025-08-12 10:24:03.265 [DEBUG] [MemoryMonitor] [T:139673320220480] Memory usage at after_mesh_reconstruction: 4 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:03.265 [INFO ] [MeshValidator] [T:139673320220480] 开始验证网格数据，顶点数: 100, 面数: 162
+2025-08-12 10:24:03.265 [DEBUG] [MeshValidator] [T:139673320220480] 基础属性检查完成 (validateBasicProperties at recon/src/utils/data_validator.h:630)
+2025-08-12 10:24:03.265 [DEBUG] [MeshValidator] [T:139673320220480] 拓扑检查完成 (validateTopology at recon/src/utils/data_validator.h:676)
+2025-08-12 10:24:03.265 [DEBUG] [MeshValidator] [T:139673320220480] 几何检查完成 (validateGeometry at recon/src/utils/data_validator.h:726)
+2025-08-12 10:24:03.265 [DEBUG] [MeshValidator] [T:139673320220480] 质量检查完成 (validateQuality at recon/src/utils/data_validator.h:778)
+2025-08-12 10:24:03.265 [INFO ] [MeshValidator] [T:139673320220480] 网格验证完成，总体评分: 0.700000
+2025-08-12 10:24:03.265 [INFO ] [IntegratedTest] [T:139673320220480] 网格验证完成，评分: 0.700000
+2025-08-12 10:24:03.265 [WARN ] [IntegratedTest] [T:139673320220480] 输出网格存在质量问题
+2025-08-12 10:24:03.265 [WARN ] [IntegratedTest] [T:139673320220480] Topology: Found 36 boundary edges
+2025-08-12 10:24:03.265 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: mesh_reconstruction, duration: 0.200353s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:03.265 [DEBUG] [PerformanceTimer] [T:139673320220480] Started timer: postprocessing (PerformanceTimer at recon/src/utils/performance_monitor.h:84)
+2025-08-12 10:24:03.265 [INFO ] [IntegratedTest] [T:139673320220480] 执行后处理
+2025-08-12 10:24:03.295 [DEBUG] [MemoryMonitor] [T:139673320220480] Memory usage at after_postprocessing: 4 MB (recordMemoryUsage at recon/src/utils/performance_monitor.h:153)
+2025-08-12 10:24:03.295 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: postprocessing, duration: 0.030223s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:03.295 [DEBUG] [PerformanceTimer] [T:139673320220480] Stopped timer: integrated_reconstruction, duration: 0.301346s (stop at recon/src/utils/performance_monitor.h:103)
+2025-08-12 10:24:03.295 [INFO ] [IntegratedTest] [T:139673320220480] 集成系统测试完成
+2025-08-12 10:24:03.296 [INFO ] [PerformanceMonitor] [T:139673320220480] Performance report generated: logs/integrated_test_report.txt

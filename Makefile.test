@@ -1,0 +1,27 @@
+# 简单的Makefile用于测试PyMaxflow C++接口
+
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -I.
+LDFLAGS = 
+
+# 目标文件
+TARGET = test_cpp_solver
+SOURCES = test_cpp_solver.cpp recon/src/graph_cut/pymaxflow_solver.cpp
+
+# 默认目标
+all: $(TARGET)
+
+# 编译目标
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SOURCES) $(LDFLAGS)
+
+# 运行测试
+test: $(TARGET)
+	./$(TARGET)
+
+# 清理
+clean:
+	rm -f $(TARGET)
+
+.PHONY: all test clean
+
