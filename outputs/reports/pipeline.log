@@ -1,0 +1,2 @@
+2025-08-11 23:16:52,840 - matplotlib.font_manager - INFO - Failed to extract font properties from /usr/share/fonts/truetype/noto/NotoColorEmoji.ttf: In FT2Font: Could not set the fontsize (invalid pixel size; error code 0x17)
+2025-08-11 23:16:53,468 - matplotlib.font_manager - INFO - generated new fontManager
