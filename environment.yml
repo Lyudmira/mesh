@@ -2,14 +2,47 @@ name: mesh-env
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
-  - openvdb
-  - pcl
-  - cgal-cpp
-  - igl
-  - open3d
-  - pymeshlab
-  - pytest
-  - pkg-config
-  - cmake
-  - eigen
+  # 核心C++库
+  - openvdb=11.0.*          # 稀疏体素和距离场处理
+  - pcl=1.14.*              # 点云处理库
+  - cgal-cpp=5.6.*          # 计算几何算法库
+  - eigen=3.4.*             # 线性代数库
+  - tbb-devel=2021.*        # 并行计算库
+  - blosc=1.21.*            # 压缩库
+  - imath=3.1.*             # 数学库
+  
+  # 构建工具
+  - cmake=3.27.*            # 构建系统
+  - make                    # 编译工具
+  - gcc_linux-64=12.*       # C++编译器
+  - gxx_linux-64=12.*       # C++编译器
+  - pkg-config              # 包配置工具
+  
+  # Python环境
+  - python=3.11.*           # Python解释器
+  - numpy=1.26.*            # 数值计算
+  - scipy=1.11.*            # 科学计算
+  - matplotlib=3.8.*        # 绘图库
+  - pyyaml=6.0.*            # YAML解析
+  
+  # Python几何处理库
+  - open3d=0.18.*           # 3D数据处理和可视化
+  - trimesh=4.0.*           # 网格处理
+  - meshio=5.3.*            # 网格I/O
+  
+  # 测试和开发工具
+  - pytest=7.4.*           # 测试框架
+  - pytest-cov=4.1.*       # 测试覆盖率
+  
+  # 可选的Python绑定和工具
+  - pybind11=2.11.*         # Python-C++绑定
+  - cython=3.0.*            # Python扩展
+  
+  # pip安装的包
+  - pip
+  - pip:
+    - pymeshlab==2023.12.post2  # MeshLab Python接口
+    - libigl==2.4.1             # 几何处理库Python绑定
+    - pyvista==0.43.*           # 3D可视化
+    - plotly==5.17.*            # 交互式绘图
+
